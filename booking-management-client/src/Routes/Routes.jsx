@@ -9,6 +9,10 @@ import Profile from "../Pages/Dashboard/Profile";
 import Notification from "../Pages/Dashboard/Notification";
 import MyOrders from "../Pages/Dashboard/MyOrders";
 import WishList from "../Pages/Dashboard/WishList";
+import PrivateRoute from './PrivateRoute'
+import RoomDetails from "../Pages/RoomDetails/RoomDetails";
+import LoginModal from "../components/Modal/LoginModal";
+import SignUpModal from "../components/Modal/SignUpModal";
 
 
 
@@ -22,31 +26,44 @@ import WishList from "../Pages/Dashboard/WishList";
                 path:'/',
                 element:<Home></Home>
             },
-         
+            {
+                path: '/room/:id',
+                element:<PrivateRoute>
+                    <RoomDetails/> 
+                </PrivateRoute>    
+            }
         ]
     },
+    {
+        path:'/login',
+        element:<LoginModal/>
+      },
+      {
+        path:'/signup',
+        element:<SignUpModal/>
+      },
     {
         path:'/',
         element:<DashboardLayout></DashboardLayout>,
         children: [
             {
-                path:'/dashboard',
+                path:'myDashboard',
                 element:<MyDashboard></MyDashboard>
             },
             {
-                path:'dashboard/profile',
+                path:'profile',
                 element:<Profile></Profile>
             },
             {
-                path:'/dashboard/notification',
+                path:'notification',
                 element:<Notification></Notification>
             },
             {
-                path:'/dashboard/myOrders',
+                path:'myOrders',
                 element:<MyOrders></MyOrders>
             },
             {
-                path:'/dashboard/wishList',
+                path:'wishList',
                 element:<WishList></WishList>
             },
          

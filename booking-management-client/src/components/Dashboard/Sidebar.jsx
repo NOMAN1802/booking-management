@@ -1,18 +1,24 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../providers/AuthProvider'
 // import Logo from '../Shared/Navbar/Logo'
 import { GrLogout } from 'react-icons/gr'
 import { FcSettings } from 'react-icons/fc'
+import { FaBlog } from 'react-icons/fa6'
+import { AiOutlineCar} from 'react-icons/ai'
 import { AiOutlineBars, AiOutlineHeart } from 'react-icons/ai'
 import { BsBell, BsFillHouseAddFill } from 'react-icons/bs'
-import { FaClipboardList, FaRegUserCircle } from 'react-icons/fa'
+import { FaClipboardList, FaHome, FaRegUserCircle, FaUserAlt } from 'react-icons/fa'
+import useAdmin from '../../hooks/useAdmin'
+import useHost from '../../hooks/useHost'
 const Sidebar = () => {
-  const navigate = useNavigate()
-  
-  const { user, logOut } = useContext(AuthContext)
+  const navigate = useNavigate();
+  const { user, logOut } = useContext(AuthContext);
+  const [isActive, setActive] = useState('false');
+  const [isAdmin] = useAdmin();
+  const [isHost] = useHost();
 
-  const [isActive, setActive] = useState('false')
   
   // Sidebar Responsive Handler
   const handleToggle = () => {
@@ -51,26 +57,7 @@ const Sidebar = () => {
             <div className='w-full hidden md:flex py-2 justify-center items-center bg-rose-100 mx-auto'>
               ibooking
             </div>
-            {/* <div className='flex flex-col items-center mt-6 -mx-2'>
-              <Link to='/dashboard'>
-                <img
-                  className='object-cover w-24 h-24 mx-2 rounded-full'
-                  src={user?.photoURL}
-                  alt='avatar'
-                  referrerPolicy='no-referrer'
-                />
-              </Link>
-              <Link to='/dashboard'>
-                <h4 className='mx-2 mt-2 font-medium text-gray-800  hover:underline'>
-                  {user?.displayName}
-                </h4>
-              </Link>
-              <Link to='/dashboard'>
-                <p className='mx-2 mt-1 text-sm font-medium text-gray-600  hover:underline'>
-                  {user?.email}
-                </p>
-              </Link>
-            </div> */}
+         
           </div>
 
           {/* Nav Items */}
@@ -78,9 +65,67 @@ const Sidebar = () => {
             <nav>
               <>
               
-                {/* Menu Links */}
-                {/* <NavLink
-                  to='add-room'
+                {/* Menu Links start */}
+
+                {
+                  isAdmin ? 
+                  (
+                  <>
+                  <NavLink
+            to='/dashboard/notification'
+            className={({ isActive }) =>
+              `flex items-center px-4 py-2 mt-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
+              }`
+            }
+          >
+            <FaUserAlt className='w-5 h-5'></FaUserAlt>
+            <span className='mx-4 font-medium'>Manage User</span>
+          </NavLink>
+                  <NavLink
+            to='/dashboard/myOrders'
+            className={({ isActive }) =>
+              `flex items-center px-4 py-2 mt-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
+              }`
+            }
+          >
+            <FaClipboardList className='w-5 h-5'></FaClipboardList>
+          <span className='mx-4 font-medium'>Manage Room</span>
+          </NavLink>
+                  <NavLink
+            to='/dashboard/wishList'
+            className={({ isActive }) =>
+              `flex items-center px-4 py-2 mt-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
+              }`
+            }
+          >
+            <AiOutlineCar className='w-5 h-5'></AiOutlineCar>
+            <span className='mx-4 font-medium'>Manage Car</span>
+          </NavLink>
+          <NavLink
+            to='/dashboard/profile'
+            className={({ isActive }) =>
+              `flex items-center px-4 py-2 mt-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
+              }`
+            }
+          >
+            <FaRegUserCircle className='w-5 h-5'></FaRegUserCircle>
+            <span className='mx-4 font-medium'>Profile</span>
+          </NavLink>
+                  
+                  </>
+                  ) :
+                  isHost ? 
+                  (
+
+                    <>
+                    
+                
+          <NavLink
+                  to='/add-room'
                   className={({ isActive }) =>
                     `flex items-center px-4 py-2 mt-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
                       isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
@@ -90,8 +135,30 @@ const Sidebar = () => {
                   <BsFillHouseAddFill className='w-5 h-5' />
 
                   <span className='mx-4 font-medium'>Add Room</span>
-                </NavLink> */}
+                </NavLink> 
                   <NavLink
+            to='/dashboard/myOrders'
+            className={({ isActive }) =>
+              `flex items-center px-4 py-2 mt-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
+              }`
+            }
+          >
+            <AiOutlineCar className='w-5 h-5'></AiOutlineCar>
+          <span className='mx-4 font-medium'>Add Car</span>
+          </NavLink>
+                  <NavLink
+            to='/dashboard/wishList'
+            className={({ isActive }) =>
+              `flex items-center px-4 py-2 mt-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
+              }`
+            }
+          >
+            <FaBlog className='w-5 h-5'></FaBlog>
+            <span className='mx-4 font-medium'>Add Blog</span>
+          </NavLink>
+          <NavLink
             to='/dashboard/profile'
             className={({ isActive }) =>
               `flex items-center px-4 py-2 mt-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
@@ -100,9 +167,14 @@ const Sidebar = () => {
             }
           >
             <FaRegUserCircle className='w-5 h-5'></FaRegUserCircle>
-
             <span className='mx-4 font-medium'>Profile</span>
           </NavLink>
+                    </>
+                  )
+                  : 
+                  (
+                    <>
+                    
                   <NavLink
             to='/dashboard/notification'
             className={({ isActive }) =>
@@ -112,7 +184,6 @@ const Sidebar = () => {
             }
           >
             <BsBell className='w-5 h-5'></BsBell>
-
             <span className='mx-4 font-medium'>Notifications</span>
           </NavLink>
                   <NavLink
@@ -124,8 +195,7 @@ const Sidebar = () => {
             }
           >
             <FaClipboardList className='w-5 h-5'></FaClipboardList>
-
-            <span className='mx-4 font-medium'>My Orders</span>
+          <span className='mx-4 font-medium'>My Orders</span>
           </NavLink>
                   <NavLink
             to='/dashboard/wishList'
@@ -136,9 +206,24 @@ const Sidebar = () => {
             }
           >
             <AiOutlineHeart className='w-5 h-5'></AiOutlineHeart>
-
             <span className='mx-4 font-medium'>Wish List</span>
           </NavLink>
+          <NavLink
+            to='/dashboard/profile'
+            className={({ isActive }) =>
+              `flex items-center px-4 py-2 mt-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
+                isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
+              }`
+            }
+          >
+            <FaRegUserCircle className='w-5 h-5'></FaRegUserCircle>
+            <span className='mx-4 font-medium'>Profile</span>
+          </NavLink>
+                    </>
+                  )
+                }
+
+          {/* Menu Links end */}
               </>
             </nav>
           </div>
@@ -146,7 +231,14 @@ const Sidebar = () => {
 
         <div>
           <hr />
-        
+          <Link to='/'
+            
+            className='flex w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform'
+          >
+            <FaHome className='w-5 h-5' />
+
+            <span className='mx-4 font-medium'>Home</span>
+          </Link>
           <button
             onClick={handleLogOut}
             className='flex w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform'
@@ -155,10 +247,15 @@ const Sidebar = () => {
 
             <span className='mx-4 font-medium'>Logout</span>
           </button>
+          
         </div>
+       
+        
       </div>
     </>
   )
 }
 
 export default Sidebar
+
+                 

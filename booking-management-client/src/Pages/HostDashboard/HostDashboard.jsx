@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 
-const MyDashboard = () => {
+const HostDashboard = () => {
     return (
         <div>
-           <h2>This is Guest</h2> 
+            <h2>Host Dashboard</h2>
         </div>
     );
 };
 
-export default MyDashboard;
+export default HostDashboard;

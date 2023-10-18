@@ -73,16 +73,11 @@ async function run() {
       res.send(result);
     })
 
-    // app.get('/users/:email', async (req, res) => {
-    //     const email = req.params.email
-    //     const query = { email: email }
-    //     const result = await usersCollection.findOne(query)
-    //     res.send(result)
-    //   })
+  //  user data  save api 
 
     app.post('/users', async (req,res) =>{
       const user = req.body;
-      user.role = 'client';
+      user.role = 'guest';
       const query = {email: user.email}
       const existingUser = await usersCollection.findOne(query);
       if(existingUser){
@@ -91,6 +86,8 @@ async function run() {
       const result = await usersCollection.insertOne(user);
       res.send(result)
     })
+
+    // user information update api 
 
     app.put('/users/:email', async (req, res) => {
       const email = req.params.email;
@@ -103,30 +100,61 @@ async function run() {
       res.send(result)
     })
    
-    app.patch('/users/admin/:id', async (req,res) => {
-      const id = req.params.id;
-      console.log(id);
-      const filter = {_id: new ObjectId(id)};
-      const updateDoc = {
-        $set: {
-          role: "admin"
-        },
-      };
-      const result = await usersCollection.updateOne(filter, updateDoc);
-      res.send(result);
-    })
+     //useAdmin hook api
+
       app.get('/users/admin/:email', verifyJWT, async (req, res) =>{
         const email = req.params.email;
-      
         if(req.decoded.email !== email){
           res.send({ admin: false})
         }
-
         const query = {email: email};
         const user = await usersCollection.findOne(query);
         const result = {admin: user?.role === 'admin'}
         res.send(result);
       })
+
+     //useHost hook api
+
+      app.get('/users/host/:email', verifyJWT, async (req, res) =>{
+        const email = req.params.email; 
+        if(req.decoded.email !== email){
+          res.send({ host: false})
+        }
+        const query = {email: email};
+        const user = await usersCollection.findOne(query);
+        const result = {host: user?.role === 'host'}
+        res.send(result);
+      })
+
+     //useGuest hook api
+
+      app.get('/users/guest/:email', verifyJWT, async (req, res) =>{
+        const email = req.params.email; 
+        if(req.decoded.email !== email){
+          res.send({ guest: false})
+        }
+        const query = {email: email};
+        const user = await usersCollection.findOne(query);
+        const result = {guest: user?.role === 'guest'}
+        res.send(result);
+      })
+
+
+      //make host api
+
+      app.patch('/users/host/:id', async (req,res) => {
+        const id = req.params.id;
+        console.log(id);
+        const filter = {_id: new ObjectId(id)};
+        const updateDoc = {
+          $set: {
+            role: "host"
+          },
+        };
+        const result = await usersCollection.updateOne(filter, updateDoc);
+        res.send(result);
+      })
+
 
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");

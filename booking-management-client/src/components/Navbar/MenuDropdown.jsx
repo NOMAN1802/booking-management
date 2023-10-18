@@ -3,18 +3,23 @@ import { Menu, Transition } from '@headlessui/react';
 import { FaChevronDown, FaChevronUp, FaRegSun, FaRegUserCircle, FaSignOutAlt } from 'react-icons/fa';
 import { AiOutlineDashboard, AiOutlineHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
+import useAdmin from '../../hooks/useAdmin';
+import useHost from '../../hooks/useHost';
+import useGuest from '../../hooks/useGuest';
 
 const MenuDropdown = ({ user, logOut }) => {
 
   const [menuOpen, setMenuOpen] = useState(false);
-
   const handleMouseEnter = () => {
     setMenuOpen(true);
   };
-
   const handleMouseLeave = () => {
     setMenuOpen(false);
   };
+
+  const [isAdmin] = useAdmin();
+  const [isHost] = useHost();
+  const [isGuest] = useGuest();
   return (
     <div className='flex items-center'>
       <div className="w-24 rounded-full">
@@ -56,7 +61,7 @@ const MenuDropdown = ({ user, logOut }) => {
               <Menu.Item>
                 {({ active }) => (
                   <Link
-                    to='/dashboard' // Replace with your dashboard route
+                    to='/dashboard'
                     className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
                   >
                     <AiOutlineDashboard className='mr-2'></AiOutlineDashboard>
@@ -67,7 +72,7 @@ const MenuDropdown = ({ user, logOut }) => {
               <Menu.Item>
                 {({ active }) => (
                   <Link
-                    to='/settings' // Replace with your settings route
+                    to='/settings'
                     className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
                   >
                     <FaRegSun className='mr-2'></FaRegSun>
@@ -78,7 +83,7 @@ const MenuDropdown = ({ user, logOut }) => {
               <Menu.Item>
                 {({ active }) => (
                   <Link
-                    to='dashboard/profile' // Replace with your profile route
+                    to='dashboard/profile'
                     className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
                   >
                     <FaRegUserCircle className='mr-2'></FaRegUserCircle>
@@ -89,7 +94,7 @@ const MenuDropdown = ({ user, logOut }) => {
               <Menu.Item>
                 {({ active }) => (
                   <Link
-                    to='/wishlist' // Replace with your wishlist route
+                    to='/wishlist'
                     className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
                   >
                     <AiOutlineHeart className='mr-2'></AiOutlineHeart>
@@ -102,7 +107,7 @@ const MenuDropdown = ({ user, logOut }) => {
                   <FaSignOutAlt className='mx-2 font-thin' />
                   <p
                     
-                    className='bg-base-100 hover:bg-base-200 text-pink-100 rounded-md flex items-start justify-start'
+                    className='bg-base-100 hover:bg-base-200 text-slate-400 rounded-md flex items-start justify-start'
                     onClick={() => {
                       logOut();
                     }}

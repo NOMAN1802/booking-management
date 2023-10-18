@@ -9,13 +9,11 @@ import { BsBell, BsFillHouseAddFill } from 'react-icons/bs'
 import { FaClipboardList, FaRegUserCircle } from 'react-icons/fa'
 const Sidebar = () => {
   const navigate = useNavigate()
-  const [toggle, setToggle] = useState(false)
+  
   const { user, logOut } = useContext(AuthContext)
 
   const [isActive, setActive] = useState('false')
-  const toggleHandler = event => {
-    setToggle(event.target.checked)
-  }
+  
   // Sidebar Responsive Handler
   const handleToggle = () => {
     setActive(!isActive)
@@ -53,7 +51,7 @@ const Sidebar = () => {
             <div className='w-full hidden md:flex py-2 justify-center items-center bg-rose-100 mx-auto'>
               ibooking
             </div>
-            <div className='flex flex-col items-center mt-6 -mx-2'>
+            {/* <div className='flex flex-col items-center mt-6 -mx-2'>
               <Link to='/dashboard'>
                 <img
                   className='object-cover w-24 h-24 mx-2 rounded-full'
@@ -72,30 +70,14 @@ const Sidebar = () => {
                   {user?.email}
                 </p>
               </Link>
-            </div>
+            </div> */}
           </div>
 
           {/* Nav Items */}
           <div className='flex flex-col justify-between flex-1 mt-6'>
             <nav>
               <>
-                <label
-                  htmlFor='Toggle3'
-                  className='inline-flex w-full justify-center items-center px-2 rounded-md cursor-pointer text-gray-800'
-                >
-                  <input
-                    onChange={toggleHandler}
-                    id='Toggle3'
-                    type='checkbox'
-                    className='hidden peer'
-                  />
-                  <span className='px-4 py-1 rounded-l-md bg-rose-400 peer-checked:bg-gray-300'>
-                    Client
-                  </span>
-                  <span className='px-4 py-1 rounded-r-md bg-gray-300 peer-checked:bg-rose-400'>
-                    Partner
-                  </span>
-                </label>
+              
                 {/* Menu Links */}
                 {/* <NavLink
                   to='add-room'

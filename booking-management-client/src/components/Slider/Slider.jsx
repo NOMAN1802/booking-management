@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -27,7 +28,7 @@ const Slider = () => {
                 </div>
             </Carousel>
            </div>
-           <div className='absolute top-48 left-64 w-1/2 z-10 '>
+           <div className='md:absolute md:top-48 md:left-64 md:w-1/2 md:z-10 sm:absolute'>
            <Search></Search>
 
            </div>

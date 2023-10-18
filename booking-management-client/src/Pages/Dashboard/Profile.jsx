@@ -5,9 +5,7 @@ import { AuthContext } from '../../providers/AuthProvider';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { FaUser } from 'react-icons/fa';
-import { TbFidgetSpinner } from 'react-icons/tb';
-import Button from '../../components/Botton/Button';
+import Button from '../../components/Button/Button';
 
 const Profile = () => {
 
@@ -46,7 +44,7 @@ const Profile = () => {
           const imageData = await imageResponse.json();
           const imageUrl = imageData?.data?.display_url;
       
-          // Update the user's display name and photoURL
+          
         //   setLoading(true);
           const displayName = `${data.firstName} ${data.lastName}`;
           await updateUserProfile(displayName, imageUrl);
@@ -262,8 +260,10 @@ const Profile = () => {
       </div>
       
     </div>
-    <div className='mx-auto w-1/3'>
-            <Button label="Submit"/>
+    <div className='md:w-1/4 '>
+            <Button label="Save changes"/>
+
+            
           </div>
   </form>
             </div>

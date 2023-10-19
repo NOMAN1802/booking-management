@@ -28,7 +28,7 @@ const Card = ({ room }) => {
         <span className='font-body text-slate-500 text-xs flex flex-row items-center justify-center gap-1  mx-2'><FiMapPin size={10}/> {room.location}</span>
         <div className='flex flex-row space-x-32'><div><p className='font-body text-[#20b759] mx-2'>${room.price}<span className='text-xs px-2'>/nignt</span> </p></div> 
            <div className='grow-1'>
-            <Link to={`/room/${1}`} > <button className='bg-slate-500 p-1 rounded text-white text-sm '> View details</button></Link>
+            <Link to={`/room/${room._id}`} > <button className='bg-slate-500 p-1 rounded text-white text-sm '> View details</button></Link>
           
            </div>
          </div>

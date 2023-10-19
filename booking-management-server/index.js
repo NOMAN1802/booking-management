@@ -45,6 +45,7 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
     const usersCollection = client.db("bookingDB").collection("users");
+    const roomsCollection = client.db("bookingDB").collection("rooms");
    
     app.post('/jwt' ,(req, res) =>{
       const user = req.body;
@@ -154,7 +155,31 @@ async function run() {
         const result = await usersCollection.updateOne(filter, updateDoc);
         res.send(result);
       })
+  
+      // Room Related APIS
 
+      // save a room in data base
+
+    app.post('/rooms', async (req, res) =>{
+      const rooms = req.body;
+      const result = await roomsCollection.insertOne(rooms)
+      res.send(result);
+    })
+    // get all rooms
+    
+    app.get('/rooms', async (req,res) =>{
+      const result = await roomsCollection.find().toArray()
+      res.send(result)
+    })
+
+    // Get a single room
+
+    app.get('/room/:id', async (req, res) =>{
+      const id = req.params.id
+      const query = {_id: new ObjectId(id)}
+      const result = await roomsCollection.findOne(query)
+      res.send(result)
+    })
 
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");

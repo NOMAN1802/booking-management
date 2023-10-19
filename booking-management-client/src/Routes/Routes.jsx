@@ -13,6 +13,16 @@ import PrivateRoute from './PrivateRoute'
 import RoomDetails from "../Pages/RoomDetails/RoomDetails";
 import LoginModal from "../components/Modal/LoginModal";
 import SignUpModal from "../components/Modal/SignUpModal";
+import AdminDashboard from "../Pages/AdminDashboard/AdminDashboard";
+import HostDashboard from "../Pages/HostDashboard/HostDashboard";
+import AddBlog from "../Pages/HostDashboard/AddBlog";
+import AddRoom from "../Pages/HostDashboard/AddRoom";
+import AddCar from "../Pages/HostDashboard/AddCar";
+import ManageRooms from "../Pages/AdminDashboard/ManageRooms";
+import ManageUsers from "../Pages/AdminDashboard/ManageUsers";
+import ManageBlogs from "../Pages/AdminDashboard/ManageBlogs";
+import ManageCars from "../Pages/AdminDashboard/ManageCars";
+import { getRoom } from "../api/room";
 
 
 
@@ -28,9 +38,10 @@ import SignUpModal from "../components/Modal/SignUpModal";
             },
             {
                 path: '/room/:id',
-                element:<PrivateRoute>
+                element:(<PrivateRoute>
                     <RoomDetails/> 
-                </PrivateRoute>    
+                </PrivateRoute>),
+                loader:  ({params}) => getRoom(params.id)   
             }
         ]
     },
@@ -43,7 +54,7 @@ import SignUpModal from "../components/Modal/SignUpModal";
         element:<SignUpModal/>
       },
     {
-        path:'/',
+        path:'dashboard',
         element:<DashboardLayout></DashboardLayout>,
         children: [
             {
@@ -66,6 +77,45 @@ import SignUpModal from "../components/Modal/SignUpModal";
                 path:'wishList',
                 element:<WishList></WishList>
             },
+            {
+                path: 'hostDashboard',
+                element:<HostDashboard/>
+            },
+            {
+                path: 'addRoom',
+                element:<AddRoom/>
+            },
+            {
+                path: 'addCar',
+                element:<AddCar/>
+            },
+           {
+               path:'addBlog',
+               element:<AddBlog/>
+           },
+
+            {
+                path: 'adminDashboard',
+                element:<AdminDashboard/>
+            },
+            {
+                path:'manageRooms',
+                element:<ManageRooms/>,
+            },
+            {
+                path:'manageCars',
+                element:<ManageCars/>,
+            },
+            {
+                path:'manageUsers',
+                element: <ManageUsers/>
+            },
+            {
+                path:'manageBlogs',
+                element:<ManageBlogs/>
+            }
+           
+          
          
         ]
     },

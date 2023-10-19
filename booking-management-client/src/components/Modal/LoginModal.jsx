@@ -22,9 +22,10 @@ const LoginModal = ({ isOpen, setIsOpen }) => {
   const { signIn,googleSignIn } = useContext(AuthContext);
   const auth = getAuth(app);
   const navigate = useNavigate();
-    const location = useLocation();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+  const location = useLocation();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const from = location?.state?.pathname || "/";
+  
   const {
     register,
     handleSubmit,

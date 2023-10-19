@@ -1,6 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
-import { FaChevronDown, FaChevronUp, FaRegSun, FaRegUserCircle, FaSignOutAlt } from 'react-icons/fa';
+import { FaChevronDown,FaRegSun, FaRegUserCircle, FaSignOutAlt } from 'react-icons/fa';
+import { FaUsersGear,FaBlog } from 'react-icons/fa6';
+import { BsBuildingGear } from 'react-icons/bs';
+import { AiOutlineCar} from 'react-icons/ai'
 import { AiOutlineDashboard, AiOutlineHeart } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import useAdmin from '../../hooks/useAdmin';
@@ -58,10 +62,15 @@ const MenuDropdown = ({ user, logOut }) => {
         >
           <Menu.Items className='absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-200 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
             <div className='px-1 py-1'>
-              <Menu.Item>
+
+              {
+                isAdmin ? 
+                (
+                     <>
+                        <Menu.Item>
                 {({ active }) => (
                   <Link
-                    to='/dashboard'
+                    to='dashboard/adminDashboard'
                     className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
                   >
                     <AiOutlineDashboard className='mr-2'></AiOutlineDashboard>
@@ -72,7 +81,108 @@ const MenuDropdown = ({ user, logOut }) => {
               <Menu.Item>
                 {({ active }) => (
                   <Link
-                    to='/settings'
+                    to='dashboard/manageUsers'
+                    className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
+                  >
+                    <FaUsersGear className='mr-2'></FaUsersGear>
+                    Manage Users
+                  </Link>
+                )}
+              </Menu.Item>
+              
+              <Menu.Item>
+                {({ active }) => (
+                  <Link
+                    to='dashboard/manageRooms'
+                    className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
+                  >
+                    <BsBuildingGear className='mr-2'></BsBuildingGear>
+                    Manage Rooms
+                  </Link>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <Link
+                    to='dashboard/manageBlogs'
+                    className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
+                  >
+                    <FaBlog className='mr-2'></FaBlog>
+                    Manage Blogs
+                  </Link>
+                )}
+              </Menu.Item>
+                     </>
+
+                ) :
+                isHost ? 
+                (
+                  <>
+                             <Menu.Item>
+                {({ active }) => (
+                  <Link
+                    to='dashboard/hostDashboard'
+                    className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
+                  >
+                    <AiOutlineDashboard className='mr-2'></AiOutlineDashboard>
+                    Dashboard
+                  </Link>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <Link
+                    to='dashboard/addRoom'
+                    className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
+                  >
+                    <BsBuildingGear className='mr-2'></BsBuildingGear>
+                    Add Room
+                  </Link>
+                )}
+              </Menu.Item>
+              
+              <Menu.Item>
+                {({ active }) => (
+                  <Link
+                    to='dashboard/addCar'
+                    className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
+                  >
+                    <AiOutlineCar className='mr-2'></AiOutlineCar>
+                    Add Car
+                  </Link>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <Link
+                    to='dashboard/AddBlog'
+                    className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
+                  >
+                    <FaBlog className='mr-2'></FaBlog>
+                    Add Blog
+                  </Link>
+                )}
+              </Menu.Item>
+                  </>
+                ) :
+
+                (
+                  <>
+                  <Menu.Item>
+                {({ active }) => (
+                  <Link
+                    to='dashboard/myDashboard'
+                    className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
+                  >
+                    <AiOutlineDashboard className='mr-2'></AiOutlineDashboard>
+                    Dashboard
+                  </Link>
+                )}
+              </Menu.Item>
+              <Menu.Item>
+                {({ active }) => (
+                  <Link
+                    to='dashboard/myDashboard'
                     className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
                   >
                     <FaRegSun className='mr-2'></FaRegSun>
@@ -80,6 +190,24 @@ const MenuDropdown = ({ user, logOut }) => {
                   </Link>
                 )}
               </Menu.Item>
+              
+              <Menu.Item>
+                {({ active }) => (
+                  <Link
+                    to='dashboard/wishlist'
+                    className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
+                  >
+                    <AiOutlineHeart className='mr-2'></AiOutlineHeart>
+                    Wishlist
+                  </Link>
+                )}
+              </Menu.Item>
+                  
+                  </>
+                )
+              }
+              
+              {/* common */}
               <Menu.Item>
                 {({ active }) => (
                   <Link
@@ -88,17 +216,6 @@ const MenuDropdown = ({ user, logOut }) => {
                   >
                     <FaRegUserCircle className='mr-2'></FaRegUserCircle>
                     Profile
-                  </Link>
-                )}
-              </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <Link
-                    to='/wishlist'
-                    className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
-                  >
-                    <AiOutlineHeart className='mr-2'></AiOutlineHeart>
-                    Wishlist
                   </Link>
                 )}
               </Menu.Item>
@@ -116,7 +233,7 @@ const MenuDropdown = ({ user, logOut }) => {
                   </p>
                 </div>
               </Menu.Item>
-
+             
             </div>
           </Menu.Items>
         </Transition>

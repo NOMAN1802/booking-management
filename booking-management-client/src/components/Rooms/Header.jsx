@@ -2,12 +2,12 @@
 import React from 'react'
 import Heading from '../Heading/Heading'
 
-const Header = () => {
+const Header = ({roomData}) => {
   return (
     <>
       <Heading
-        title='Veluvana Bali - Owl Bamboo House'
-        subtitle='Sidemen, Indonesia'
+        title={roomData?.title}
+        subtitle={roomData?.location}
       />
       <div className='w-full md:h-[60vh] overflow-hidden rounded-xl'>
         <img

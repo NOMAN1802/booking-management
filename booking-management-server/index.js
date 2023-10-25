@@ -73,7 +73,7 @@ async function run() {
       const result = await usersCollection.find().toArray();
       res.send(result);
     })
-
+  
   //  user data  save api 
 
     app.post('/users', async (req,res) =>{
@@ -155,6 +155,40 @@ async function run() {
         const result = await usersCollection.updateOne(filter, updateDoc);
         res.send(result);
       })
+
+
+      // make admin api
+
+      app.patch('/users/admin/:id', async (req, res) => {
+        const id = req.params.id;
+        console.log(id);
+        const filter = { _id: new ObjectId(id) };
+        const updateDoc = {
+          $set: {
+            role: 'admin'
+          },
+        };
+        const result = await usersCollection.updateOne(filter, updateDoc);
+        res.send(result);
+      })
+
+
+      // Gust request for Host role 
+
+    app.patch('/users/hostRequest/:email', async (req, res) => {
+      const email = req.params.email;
+      
+      const query = {email: email};
+      
+      const updateDoc = {
+        $set: {
+          role: 'Make me Host'
+        },
+      };
+      const result = await usersCollection.updateOne(query, updateDoc);
+      res.send(result);
+    })
+
   
       // Room Related APIS
 

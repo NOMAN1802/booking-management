@@ -71,7 +71,7 @@ const MenuDropdown = ({ user, logOut }) => {
                 {({ active }) => (
                   <Link
                     to='dashboard/adminDashboard'
-                    className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
+                    className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
                   >
                     <AiOutlineDashboard className='mr-2'></AiOutlineDashboard>
                     Dashboard
@@ -82,7 +82,7 @@ const MenuDropdown = ({ user, logOut }) => {
                 {({ active }) => (
                   <Link
                     to='dashboard/manageUsers'
-                    className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
+                    className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
                   >
                     <FaUsersGear className='mr-2'></FaUsersGear>
                     Manage Users
@@ -94,7 +94,7 @@ const MenuDropdown = ({ user, logOut }) => {
                 {({ active }) => (
                   <Link
                     to='dashboard/manageRooms'
-                    className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
+                    className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
                   >
                     <BsBuildingGear className='mr-2'></BsBuildingGear>
                     Manage Rooms
@@ -105,7 +105,7 @@ const MenuDropdown = ({ user, logOut }) => {
                 {({ active }) => (
                   <Link
                     to='dashboard/manageBlogs'
-                    className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
+                    className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
                   >
                     <FaBlog className='mr-2'></FaBlog>
                     Manage Blogs
@@ -122,7 +122,7 @@ const MenuDropdown = ({ user, logOut }) => {
                 {({ active }) => (
                   <Link
                     to='dashboard/hostDashboard'
-                    className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
+                    className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
                   >
                     <AiOutlineDashboard className='mr-2'></AiOutlineDashboard>
                     Dashboard
@@ -133,7 +133,7 @@ const MenuDropdown = ({ user, logOut }) => {
                 {({ active }) => (
                   <Link
                     to='dashboard/addRoom'
-                    className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
+                    className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
                   >
                     <BsBuildingGear className='mr-2'></BsBuildingGear>
                     Add Room
@@ -145,7 +145,7 @@ const MenuDropdown = ({ user, logOut }) => {
                 {({ active }) => (
                   <Link
                     to='dashboard/addCar'
-                    className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
+                    className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
                   >
                     <AiOutlineCar className='mr-2'></AiOutlineCar>
                     Add Car
@@ -156,7 +156,7 @@ const MenuDropdown = ({ user, logOut }) => {
                 {({ active }) => (
                   <Link
                     to='dashboard/AddBlog'
-                    className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
+                    className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
                   >
                     <FaBlog className='mr-2'></FaBlog>
                     Add Blog
@@ -172,7 +172,7 @@ const MenuDropdown = ({ user, logOut }) => {
                 {({ active }) => (
                   <Link
                     to='dashboard/myDashboard'
-                    className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
+                    className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
                   >
                     <AiOutlineDashboard className='mr-2'></AiOutlineDashboard>
                     Dashboard
@@ -183,7 +183,7 @@ const MenuDropdown = ({ user, logOut }) => {
                 {({ active }) => (
                   <Link
                     to='dashboard/myDashboard'
-                    className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
+                    className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
                   >
                     <FaRegSun className='mr-2'></FaRegSun>
                     Settings
@@ -195,7 +195,7 @@ const MenuDropdown = ({ user, logOut }) => {
                 {({ active }) => (
                   <Link
                     to='dashboard/wishlist'
-                    className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
+                    className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
                   >
                     <AiOutlineHeart className='mr-2'></AiOutlineHeart>
                     Wishlist
@@ -212,22 +212,22 @@ const MenuDropdown = ({ user, logOut }) => {
                 {({ active }) => (
                   <Link
                     to='dashboard/profile'
-                    className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
+                    className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-thin`}
                   >
                     <FaRegUserCircle className='mr-2'></FaRegUserCircle>
                     Profile
                   </Link>
                 )}
               </Menu.Item>
-              <Menu.Item className='w-full hidden md:flex py-2  bg-gray-100 '>
-                <div className='flex items-center'>
+              <Menu.Item className='w-full hidden md:flex py-2  bg-gray-200 '>
+                <div onClick={() => {
+                      logOut();
+                    }} className='flex items-center cursor-pointer'>
                   <FaSignOutAlt className='mx-2 font-thin' />
                   <p
                     
                     className='bg-base-100 hover:bg-base-200 text-slate-400 rounded-md flex items-start justify-start'
-                    onClick={() => {
-                      logOut();
-                    }}
+                    
                   >
                     Logout
                   </p>

@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react';
 import AddRoomForm from '../../components/Forms/AddRoomForm';
 import { imageUpload } from '../../api/utils';
 import { AuthContext } from '../../providers/AuthProvider';
-import { addRoom } from '../../api/room';
+import { addRoom } from '../../api/rooms';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 

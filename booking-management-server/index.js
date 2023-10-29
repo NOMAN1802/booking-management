@@ -46,6 +46,7 @@ async function run() {
     await client.connect();
     const usersCollection = client.db("bookingDB").collection("users");
     const roomsCollection = client.db("bookingDB").collection("rooms");
+    const carsCollection = client.db("bookingDB").collection("cars");
    
     app.post('/jwt' ,(req, res) =>{
       const user = req.body;
@@ -214,6 +215,33 @@ async function run() {
       const result = await roomsCollection.findOne(query)
       res.send(result)
     })
+
+
+    // Car Related APIS
+
+   // save a car in data base
+   
+    app.post('/cars', async (req, res) =>{
+      const cars = req.body;
+      const result = await carsCollection.insertOne(cars)
+      res.send(result);
+    })
+    // get all cars
+    
+    app.get('/cars', async (req,res) =>{
+      const result = await carsCollection.find().toArray()
+      res.send(result)
+    })
+
+    // Get a single car
+
+    app.get('/car/:id', async (req, res) =>{
+      const id = req.params.id
+      const query = {_id: new ObjectId(id)}
+      const result = await carsCollection.findOne(query)
+      res.send(result)
+    })
+
 
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");

@@ -48,17 +48,19 @@ const ServiceDropdown = () => {
                 <Link
                   to='/' // Replace with your hotels route
                   className={`${
-                    active && 'bg-primary text-pink-400'
+                    active && 'bg-gray-100 text-pink-400'
                   } group flex w-full items-center rounded-md px-2 py-2 text-base font-normal`}
                 >
-                  <NestedDropdown
+
+                  Hotel
+                  {/* <NestedDropdown
                     label="Hotel"
                     subItems={[
                       { label: "Hotel Search Page", to: "/hotel-search" },
                       { label: "Single Hotel", to: "/single-hotel" },
                     ]}
                     
-                  />
+                  /> */}
                 </Link>
               )}
             </Menu.Item>
@@ -66,7 +68,7 @@ const ServiceDropdown = () => {
               {({ active }) => (
                 <Link
                   to='/apartments' // Replace with your apartments route
-                  className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-normal`}
+                  className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-normal`}
                 >
                   Apartment
                 </Link>
@@ -76,7 +78,7 @@ const ServiceDropdown = () => {
               {({ active }) => (
                 <Link
                   to='/cars' // Replace with your cars route
-                  className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-normal`}
+                  className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-normal`}
                 >
                   Car
                 </Link>
@@ -86,7 +88,7 @@ const ServiceDropdown = () => {
               {({ active }) => (
                 <Link
                   to='/spaces' // Replace with your spaces route
-                  className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-normal`}
+                  className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-normal`}
                 >
                   Space
                 </Link>
@@ -96,7 +98,7 @@ const ServiceDropdown = () => {
               {({ active }) => (
                 <Link
                   to='/beauty' // Replace with your beauty route
-                  className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-normal`}
+                  className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-normal`}
                 >
                   Beauty
                 </Link>
@@ -106,7 +108,7 @@ const ServiceDropdown = () => {
               {({ active }) => (
                 <Link
                   to='/tours' // Replace with your tours route
-                  className={`${active && 'bg-primary text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-normal`}
+                  className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-normal`}
                 >
                   Tour
                 </Link>

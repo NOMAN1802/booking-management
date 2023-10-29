@@ -22,7 +22,9 @@ import ManageRooms from "../Pages/AdminDashboard/ManageRooms";
 import ManageUsers from "../Pages/AdminDashboard/ManageUsers";
 import ManageBlogs from "../Pages/AdminDashboard/ManageBlogs";
 import ManageCars from "../Pages/AdminDashboard/ManageCars";
-import { getRoom } from "../api/room";
+import { getRoom } from "../api/rooms";
+import CarDetails from "../Pages/CarDetails/CarDetails";
+import { getCar } from "../api/cars";
 
 
 
@@ -42,6 +44,13 @@ import { getRoom } from "../api/room";
                     <RoomDetails/> 
                 </PrivateRoute>),
                 loader:  ({params}) => getRoom(params.id)   
+            },
+            {
+                path: '/car/:id',
+                element:(<PrivateRoute>
+                    <CarDetails/> 
+                </PrivateRoute>),
+                loader:  ({params}) => getCar(params.id)   
             }
         ]
     },

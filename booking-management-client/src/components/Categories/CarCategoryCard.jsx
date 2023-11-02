@@ -29,12 +29,14 @@ const CarCategoryCard = ({ label, image, selected,seat, bags }) => {
       navigate(url)
     }
     return (    
-    <div  onClick={handleClick} className="card card-side bg-base-100 shadow-xl">
-    <figure><img className='group-hover:scale-110 ' src={image} alt="Movie"/></figure>
+    <div  onClick={handleClick} className="card card-side  bg-white shadow-xl">
+    <figure><img className='group-hover:scale-110 w-[70%] ' src={image} alt="car"/></figure>
     <div className="card-body">
-      <h2 className="card-title">{label}</h2>
-      <p>Seats :{seat}</p>
-      <p>Bags: {bags}</p>
+      <h2 className="card-title w-full">{label}</h2>
+      <div className='text-gray-500 text-sm'>
+      <p>Seats:{seat}</p>
+      <p>Bags:{bags}</p>
+      </div>
       <div className="card-actions justify-end">
         <button className='bg-slate-500 p-1 rounded text-white text-sm '> view details</button>
       </div>

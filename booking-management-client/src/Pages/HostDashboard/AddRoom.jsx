@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useContext, useState } from 'react';
 import AddRoomForm from '../../components/Forms/AddRoomForm';
 import { imageUpload } from '../../api/utils';
@@ -8,103 +7,123 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
 const AddRoom = () => {
-    const [loading, setLoading] = useState(false);
-    const [uploadButtonText, setUploadButtonText] = useState('Upload Image');
-    const [dates, setDates] = useState({
-        startDate: new Date(),
-        endDate: new Date(),
-        key: 'selection',
-    });
-    const {user} = useContext(AuthContext);
-    const navigate = useNavigate()
-    // handle submit form
-    const handleSubmit = (event) =>{
-        event.preventDefault();
-        setLoading(true);
-        const location = event.target.location.value;
-        const title = event.target.title.value;
-        const from = dates.startDate;
-        const to = dates.endDate;
-        const price = event.target.price.value;
-        const total_guest = event.target.total_guest.value;
-        const bedrooms = event.target.bedrooms.value;
-        const bathrooms = event.target.bathrooms.value;
-        const description = event.target.description.value;
-        const category = event.target.category.value;
-        const image = event.target.image.files[0];
+  const [loading, setLoading] = useState(false);
+  const [uploadButtonText, setUploadButtonText] = useState('Upload Image');
+  const [dates, setDates] = useState({
+    startDate: new Date(),
+    endDate: new Date(),
+    key: 'selection',
+  });
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-        // Upload Image
-        imageUpload(image)
-        .then(data =>{
-            // console.log(data.data.display_url);
-            const roomData = {
-                image : data.data.display_url,
-                location,
-                 title,
-                 total_guest,
-                 bedrooms,
-                 bathrooms,
-                 description,
-                 category,
-                 price: parseFloat(price),
-                 from, 
-                 to,
+  // State to store selected facilities
+  const [selectedFacilities, setSelectedFacilities] = useState([]);
 
-                host:{
-                 name : user?.displayName,
-                 image: user?.photoURL,
-                 email : user?.email,
-
-                }
-
-        
-            }
-            // Save room data in server
-            addRoom(roomData).then(data =>{
-                console.log(data);
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'Room added successfully',
-                    showConfirmButton: false,
-                    timer: 1500,
-                  });
-                  navigate('/dashboard/hostDashboard')
-            }).catch(err => {
-                console.log(err.message);
-                // toast.error(err.message)
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Something  wrong in server!',
-                  });
-            })
-            console.log(roomData);
-            setLoading(false)
-        }).catch(err =>{
-           console.log(err.message); 
-           setLoading(false)
-        })
-        console.log(location);
+  function handleCbClick(ev) {
+    const { checked, name } = ev.target;
+    if (checked) {
+      
+      setSelectedFacilities([...selectedFacilities, name]);
+    } else {
+     
+      setSelectedFacilities(selectedFacilities.filter((selectedName) => selectedName !== name));
     }
-    const handleImageChange = image =>{
-        setUploadButtonText(image.name);
-    }
-    const handleDates = ranges =>{
-        //  return console.log(ranges.selection);
-         setDates(ranges.selection)
-    }
-    return (
-     <div>
-        <AddRoomForm handleSubmit={handleSubmit}
-         loading={loading} 
-         handleImageChange={handleImageChange}
+  }
+
+  // Handle submit form
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setLoading(true);
+    const location = event.target.location.value;
+    const title = event.target.title.value;
+    const from = dates.startDate;
+    const to = dates.endDate;
+    const price = event.target.price.value;
+    const total_guest = event.target.total_guest.value;
+    const bedrooms = event.target.bedrooms.value;
+    const bathrooms = event.target.bathrooms.value;
+    const description = event.target.description.value;
+    const category = event.target.category.value;
+    const type = event.target.type.value;
+    const image = event.target.image.files[0];
+
+    // Upload Image
+    imageUpload(image)
+      .then((data) => {
+        const roomData = {
+          image: data.data.display_url,
+          location,
+          title,
+          total_guest,
+          bedrooms,
+          bathrooms,
+          description,
+          category,
+          type,
+          price: parseFloat(price),
+          from,
+          to,
+          facilities: selectedFacilities, 
+          host: {
+            name: user?.displayName,
+            image: user?.photoURL,
+            email: user?.email,
+          },
+        };
+
+        // Save room data in the server
+        addRoom(roomData)
+          .then((data) => {
+            console.log(data);
+            Swal.fire({
+              position: 'top-end',
+              icon: 'success',
+              title: 'Room added successfully',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            navigate('/dashboard/hostDashboard');
+          })
+          .catch((err) => {
+            console.log(err.message);
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong on the server!',
+            });
+          });
+
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err.message);
+        setLoading(false);
+      });
+  };
+
+  const handleImageChange = (image) => {
+    setUploadButtonText(image.name);
+  };
+
+  const handleDates = (ranges) => {
+    setDates(ranges.selection);
+  };
+
+  return (
+    <div>
+      <AddRoomForm
+        handleSubmit={handleSubmit}
+        loading={loading}
+        handleImageChange={handleImageChange}
         uploadButtonText={uploadButtonText}
         dates={dates}
-        handleDates = {handleDates}
-        />
-     </div>
-    );
+        handleDates={handleDates}
+        handleCbClick={handleCbClick}
+        selected={selectedFacilities} 
+      />
+    </div>
+  );
 };
 
 export default AddRoom;

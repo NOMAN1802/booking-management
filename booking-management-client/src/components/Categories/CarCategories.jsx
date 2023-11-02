@@ -12,7 +12,7 @@ const CarCategories = () => {
         <Container>
            <div>
             <p className='text-3xl text-gray-800 font-medium my-8'>Car Types</p>
-           <div className='pt-4 grid sm:grid-cols-2 md:grid-cols-3  gap-2'>
+           <div className='pt-4 grid sm:grid-cols-2 md:grid-cols-3 gap-4'>
         {carCategories.map(item => (
           <CarCategoryCard
             label={item.label}

@@ -13,9 +13,7 @@ const ManageUsers = () => {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/users`)
         return res.json()
     })
-    console.log(users.role);
-
-
+    
     const handleMakeAdmin = user => {
         fetch(`${import.meta.env.VITE_API_URL}/users/admin/${user._id}`, {
             method: 'PATCH'
@@ -106,7 +104,6 @@ const ManageUsers = () => {
                                         <button onClick={() => handleMakeAdmin(user)} className="btn btn-ghost  bg-black opacity-30  text-white"><FaUserShield></FaUserShield></button>
                                     }</td>
 
-
                                     <td>
                                         {user.role === 'host' ? 'host' :
                                             <button onClick={() => handleMakeHost(user)} className="btn btn-ghost bg-black opacity-30 rounded-2xl text-white"><FaUser></FaUser></button>
@@ -114,12 +111,8 @@ const ManageUsers = () => {
                                     </td>
                                 </tr>)
                             }
-
-
                         </tbody>
                         {/* foot */}
-
-
                     </table>
                 </div>
             </div>

@@ -1,8 +1,12 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
-import { DateRange } from 'react-date-range'
-import { TbFidgetSpinner } from 'react-icons/tb'
-import { roomCategories } from '../Categories/roomCategoriesData'
+import React from 'react';
+import { DateRange } from 'react-date-range';
+import { TbFidgetSpinner } from 'react-icons/tb';
+import { roomCategories } from '../Categories/roomCategoriesData';
+// import { FiWifi, FiCar, FiTv, FiMic, FiPaw, FiHome } from 'react-icons/fi';
+import { FaCar, FaHome, FaPaw, FaTv, FaWifi } from 'react-icons/fa';
+import { FaRadio } from 'react-icons/fa6';
+
 const AddRoomForm = ({
   handleSubmit,
   dates,
@@ -10,6 +14,8 @@ const AddRoomForm = ({
   loading,
   handleImageChange,
   uploadButtonText,
+  selected,
+  handleCbClick,
 }) => {
   return (
     <div className='w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50'>
@@ -46,12 +52,31 @@ const AddRoomForm = ({
                 ))}
               </select>
             </div>
+            <div className='space-y-1 text-sm'>
+              <label htmlFor='type' className='block text-gray-600'>
+                Type
+              </label>
+              <select
+                required
+                className='w-full px-4 py-3 border-rose-300 focus:outline-rose-500 rounded-md'
+                name='type'
+              >
+               
+                  <option >
+                    Regular
+                  </option>
+                  <option >
+                    Featured
+                  </option>
+               
+              </select>
+            </div>
 
             <div className='space-y-1'>
               <label htmlFor='location' className='block text-gray-600'>
                 Select Availability Range
               </label>
-              <DateRange ranges={[dates]}  onChange={handleDates} rangeColors={['#F43F5E']} />
+              <DateRange ranges={[dates]} onChange={handleDates} rangeColors={['#F43F5E']} />
             </div>
           </div>
           <div className='space-y-6'>
@@ -74,9 +99,9 @@ const AddRoomForm = ({
                 <div className='flex flex-col w-max mx-auto text-center'>
                   <label>
                     <input
-                    onChange={event=>{
-                        handleImageChange(event.target.files[0])
-                    }}
+                      onChange={event => {
+                        handleImageChange(event.target.files[0]);
+                      }}
                       className='text-sm cursor-pointer w-36 hidden'
                       type='file'
                       name='image'
@@ -84,7 +109,7 @@ const AddRoomForm = ({
                       accept='image/*'
                       hidden
                     />
-                    <div className='bg-rose-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-rose-500'>
+                    <div className='bg-rose-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover-bg-rose-500'>
                       {uploadButtonText}
                     </div>
                   </label>
@@ -158,9 +183,38 @@ const AddRoomForm = ({
 
               <textarea
                 id='description'
-                className='block rounded-md focus:rose-300 w-full h-32 px-4 py-3 text-gray-800  border border-rose-300 focus:outline-rose-500 '
+                className='block rounded-md focus-rose-300 w-full h-32 px-4 py-3 text-gray-800 border border-rose-300 focus:outline-rose-500 '
                 name='description'
               ></textarea>
+            </div>
+
+            {/* Facilities */}
+            <div className="space-y-1">
+              <label htmlFor="facilities" className="block text-gray-600">
+                Facilities
+              </label>
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { name: 'wifi', label: 'Wifi', icon: <FaWifi /> },
+                  { name: 'parking', label: 'Parking', icon: <FaCar /> },
+                  { name: 'tv', label: 'TV', icon: <FaTv /> },
+                  { name: 'pets', label: 'Pets', icon: <FaPaw /> },
+                ].map((facility) => (
+                  <label
+                    key={facility.name}
+                    className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer"
+                  >
+                    <input
+                      type='checkbox'
+                      name={facility.name}
+                      checked={selected.includes(facility.name)}
+                      onChange={handleCbClick}
+                    />
+                    {facility.icon}
+                    <span>{facility.label}</span>
+                  </label>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -177,7 +231,7 @@ const AddRoomForm = ({
         </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default AddRoomForm
+export default AddRoomForm;

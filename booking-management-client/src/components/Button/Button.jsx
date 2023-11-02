@@ -7,13 +7,12 @@ const Button = ({ label, onClick, disabled, outline, small, icon: Icon }) => {
             relative
             disabled:opacity-70
             disabled:cursor-not-allowed
-            rounded-lg
             hover:opacity-80
             transition
             px-4
             w-full
-            ${outline ? 'bg-white' : 'bg-blue-500'}
-            ${outline ? 'border-black' : 'border-blue-500'}
+            ${outline ? 'bg-white' : 'bg-gray-400'}
+            ${outline ? 'border-black' : 'border-gray-400'}
             ${outline ? 'text-black' : 'text-white'}
             ${small ? 'text-sm' : 'text-md'}
             ${small ? 'py-1' : 'py-3'}

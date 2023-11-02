@@ -2,7 +2,7 @@
 
 export const carCategories = [
     {
-      label: 'Passenger Van',
+      label: 'Passenger-Van',
       image: 'https://ibookings.org/storage/2021/01/30/car-type-passenger-van-1612015808-300x200.jpg',
       seat: 5,
       bags: 5
@@ -21,7 +21,7 @@ export const carCategories = [
       bags: 5
     },
     {
-      label: 'Full-size SUV',
+      label: 'Full-size-SUV',
       image: 'https://ibookings.org/storage/2021/01/30/car-type-standard-1612015281-300x200.JPG',
       description: 'This property is in the Villas!',
       seat: 5,

@@ -11,6 +11,8 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 import AuthProvider from './providers/AuthProvider'
+import 'react-date-range/dist/styles.css'
+import 'react-date-range/dist/theme/default.css'
 
 
 const queryClient = new QueryClient();

@@ -47,6 +47,7 @@ async function run() {
     const usersCollection = client.db("bookingDB").collection("users");
     const roomsCollection = client.db("bookingDB").collection("rooms");
     const carsCollection = client.db("bookingDB").collection("cars");
+    const bookingsCollection = client.db("bookingDB").collection("bookings");
    
     app.post('/jwt' ,(req, res) =>{
       const user = req.body;
@@ -215,6 +216,47 @@ async function run() {
       const result = await roomsCollection.findOne(query)
       res.send(result)
     })
+     
+
+     // approve rooms get api 
+     app.get("/rooms/approved", async (req, res) => {
+      const approve = req.body;
+      const query = {
+       status:  'approved'
+      } 
+       const result = await roomsCollection.find(query).toArray();
+       res.send(result);
+     });
+ 
+    //Room status change  api
+
+      app.patch('/rooms/approved/:id', async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const filter = { _id: new ObjectId(id) };
+      const updateDoc = {
+        $set: {
+          status: 'approved'
+        },
+      };
+      const result = await roomsCollection.updateOne(filter, updateDoc);
+      res.send(result);
+
+    })
+
+    app.patch('/rooms/denied/:id', async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const filter = { _id: new ObjectId(id) };
+      const updateDoc = {
+        $set: {
+          status: 'denied'
+        },
+      };
+      const result = await roomsCollection.updateOne(filter, updateDoc);
+      res.send(result);
+    })
+
 
 
     // Car Related APIS
@@ -241,7 +283,50 @@ async function run() {
       const result = await carsCollection.findOne(query)
       res.send(result)
     })
+   
 
+    // update room booking status
+    app.patch('/rooms/status/:id', async (req, res) => {
+      const id = req.params.id
+      const status = req.body.status
+      const query = { _id: new ObjectId(id) }
+      const updateDoc = {
+        $set: {
+          booked: status,
+        },
+      }
+      const update = await roomsCollection.updateOne(query, updateDoc)
+      res.send(update)
+    })
+
+    // Get bookings for guest
+    app.get('/bookings', async (req, res) => {
+      const email = req.query.email
+
+      if (!email) {
+        res.send([])
+      }
+      const query = { 'guest.email': email }
+      const result = await bookingsCollection.find(query).toArray()
+      res.send(result)
+    })
+
+    // Save a booking in database
+    app.post('/bookings', async (req, res) => {
+      const booking = req.body
+      console.log(booking)
+      const result = await bookingsCollection.insertOne(booking)
+      res.send(result)
+    })
+
+    // delete a booking
+
+    app.delete('/bookings/:id', async (req, res) => {
+      const id = req.params.id
+      const query = { _id: new ObjectId(id) }
+      const result = await bookingsCollection.deleteOne(query)
+      res.send(result)
+    })
 
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");

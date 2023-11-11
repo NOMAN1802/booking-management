@@ -1,0 +1,22 @@
+[
+    {
+        "image" : "https://img.freepik.com/free-photo/modern-studio-apartment-design-with-bedroom-living-space_1262-12375.jpg?w=1060&t=st=1699249370~exp=1699249970~hmac=41458a9ce67a72a270d7a48e1648714c561c9b779dc9c9e96ee090d3b92abd03",
+        "name" : "ROOMS",
+        "count" : 45
+    },
+    {
+        "image" : "https://ibookings.org/storage/2021/01/30/nissan-gt-r-2018-1-1586273090-1612021586.jpg",
+        "name" : "CARS",
+        "count" : 35
+    },
+    {
+        "image" : "https://ibookings.org/storage/2021/01/31/gre981-take-01-365-1612103174.jpg",
+        "name" : "RESERVATIONS",
+        "count" : 30
+    },
+    {
+        "image" : "https://img.freepik.com/free-photo/young-brunette-white-casual-sweater-isolated-purple-wall_343596-5605.jpg?w=1060&t=st=1699249548~exp=1699250148~hmac=9896d83176c9d3a4d1a65a947e02e6f76e82fe7c8d52fc71fe7be329899c4e92",
+        "name" : "USERS",
+        "count" : 18
+    }
+]

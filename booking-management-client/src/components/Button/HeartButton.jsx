@@ -1,8 +1,27 @@
-import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai'
+import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
+import useAdmin from '../../hooks/useAdmin';
+import useHost from '../../hooks/useHost';
+import { AuthContext } from '../../providers/AuthProvider';
+import { useContext } from 'react';
 
-const HeartButton = () => {
+const HeartButton = ({ handleWishList, room, car }) => {
+    
+    
+  const{user} = useContext(AuthContext);
+  const [isAdmin] = useAdmin();
+  const [isHost] = useHost();
+    const handleClick = (item) => {
+      // Conditionally handle the click based on the type of item (room or car)
+      if (item === 'room') {
+        handleWishList(room);
+      } else if (item === 'car') {
+        handleWishList(car);
+      }
+    };
   return (
-    <div
+    <button
+      onClick={() => (room ?  handleClick('room') :  handleClick('car'))}
+      disabled={isAdmin || isHost}
       className='
         relative
         hover:opacity-80
@@ -23,8 +42,8 @@ const HeartButton = () => {
         size={24}
         className='fill-neutral-500/70 hover:fill-rose-500'
       />
-    </div>
-  )
+    </button>
+  );
 }
 
-export default HeartButton
+export default HeartButton;

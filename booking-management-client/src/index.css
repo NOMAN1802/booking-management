@@ -6,3 +6,16 @@
     
     display: none;
    }
+
+
+   .active {
+    @apply tracking-wide transition-colors duration-300 cursor-pointer mb-2 lg:mb-0 text-base font-medium  ;
+  }
+  .active1 {
+    @apply text-pink-400 transition border-b-2  border-pink-400 cursor-pointer mb-2 lg:mb-0 text-base tracking-wide font-medium;
+  }
+
+  .default{
+    @apply  hover:text-pink-400 transition border-b-2 border-white hover:border-pink-400 cursor-pointer mb-2 lg:mb-0 text-base font-medium;
+  }
+  

@@ -21,6 +21,16 @@ export const getAllCars = async () =>{
     return data
 
 }
+
+
+//  Get featured cars
+
+export const getFeaturedCars = async () =>{
+    const response  = await fetch(`${import.meta.env.VITE_API_URL}/cars/featured`)
+    const data = await response.json()
+    return data
+
+}
 // Get Car details
 export const getCar = async id => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/car/${id}`)

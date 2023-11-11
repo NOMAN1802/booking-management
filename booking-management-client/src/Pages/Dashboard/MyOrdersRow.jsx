@@ -50,7 +50,7 @@ const MyOrdersRow = ({booking, fetchBookings,index}) => {
             </div>
         </td>
         <td>
-            {booking.title}
+        {booking.title ? booking.title : booking.destination}
         </td>
         <td>{booking.location}</td>
 

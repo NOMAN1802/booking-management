@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Button from '../../components/Button/Button';
+import SectionTitle from '../../components/SectionTitle/SectionTitle';
 
 const Profile = () => {
 
@@ -102,8 +103,13 @@ const Profile = () => {
 
     return (
         <>
-          
-            <div className='w-full min-h-[calc(100vh-40px)] bg-gray-50 rounded shadow-xl'>
+           <SectionTitle 
+           subHeading={"Edit profile "}
+           heading={"Profile"}
+           >
+           </SectionTitle>
+            <div className='w-full min-h-[100vh] bg-gray-50 rounded shadow-xl'>
+            
             <form className=" w-full p-8 space-y-12" onSubmit={handleSubmit(onSubmit)}>
                 <h1 className='text-2xl font-normal'>Your Profile</h1>
     {/* name */}

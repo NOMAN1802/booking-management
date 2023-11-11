@@ -16,7 +16,21 @@ const AddCar = () => {
         key: 'selection',
     });
     const {user} = useContext(AuthContext);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+
+
+    const [selectedCarFacilities, setSelectedCarFacilities] = useState([]);
+
+    function handleFcClick(ev) {
+      const { checked, name } = ev.target;
+      if (checked) {
+        
+        setSelectedCarFacilities([...selectedCarFacilities, name]);
+      } else {
+       
+        setSelectedCarFacilities(selectedCarFacilities.filter((selectedName) => selectedName !== name));
+      }
+    }
     // handle submit form
     const handleSubmit = (event) =>{
         event.preventDefault();
@@ -31,6 +45,7 @@ const AddCar = () => {
         const doors = event.target.doors.value;
         const description = event.target.description.value;
         const type = event.target.type.value;
+        const carType = event.target.carType.value;
         const image = event.target.image.files[0];
 
         // Upload Image
@@ -46,10 +61,11 @@ const AddCar = () => {
                  doors,
                  description,
                  type,
+                 carType,
                  price: parseFloat(price),
                  from, 
                  to,
-
+                facilities: selectedCarFacilities,
                 host:{
                  name : user?.displayName,
                  image: user?.photoURL,
@@ -72,7 +88,7 @@ const AddCar = () => {
                   navigate('/dashboard/hostDashboard')
             }).catch(err => {
                 console.log(err.message);
-                // toast.error(err.message)
+               
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -102,6 +118,8 @@ const AddCar = () => {
         uploadButtonText={uploadButtonText}
         dates={dates}
         handleDates = {handleDates}
+        handleFcClick={handleFcClick}
+        selected={selectedCarFacilities} 
         />
      </div>
     );

@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import Container from '../Container/Container'
 import { carCategories } from './carCategoriesData';
 import CarCategoryCard from './CarCategoryCard';
+import SectionTitle from '../SectionTitle/SectionTitle';
 
 const CarCategories = () => {
     const [params, setParams] = useSearchParams();
@@ -11,8 +12,12 @@ const CarCategories = () => {
     return (
         <Container>
            <div>
-            <p className='text-3xl text-gray-800 font-medium my-8'>Car Types</p>
-           <div className='pt-4 grid sm:grid-cols-2 md:grid-cols-3 gap-4'>
+           <SectionTitle
+           subHeading={"Choose what suits you best"}
+           heading={"Car Category"}
+           >
+           </SectionTitle>
+           <div className='pt-4 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2'>
         {carCategories.map(item => (
           <CarCategoryCard
             label={item.label}

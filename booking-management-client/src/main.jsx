@@ -15,21 +15,24 @@ import 'react-date-range/dist/styles.css'
 import 'react-date-range/dist/theme/default.css'
 
 
+
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
      <AuthProvider>
-    <HelmetProvider>
+     
+      
+      <HelmetProvider>
 
-    <QueryClientProvider client={queryClient}>
+      <QueryClientProvider client={queryClient}>
+      
+      <RouterProvider router={router} />
+     
+      </QueryClientProvider>
     
-    <RouterProvider router={router} />
-   
-    </QueryClientProvider>
-  
-    </HelmetProvider>
-    
+      </HelmetProvider>
+ 
     </AuthProvider>
   </React.StrictMode>,
 )

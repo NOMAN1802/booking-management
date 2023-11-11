@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
 import { Dialog, Transition } from '@headlessui/react'
 import { format } from 'date-fns'
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 
 const BookingModal = ({ modalHandler, closeModal, isOpen, bookingInfo }) => {
+  const [shouldShowBookingInfo, setShouldShowBookingInfo] = useState(true);
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as='div' className='relative z-10' onClose={closeModal}>
@@ -38,7 +40,7 @@ const BookingModal = ({ modalHandler, closeModal, isOpen, bookingInfo }) => {
                 </Dialog.Title>
                 <div className='mt-2'>
                   <p className='text-sm text-gray-500'>
-                    Room: {bookingInfo.title}
+                  {shouldShowBookingInfo ? `Room: ${bookingInfo.title}` : `Car: ${bookingInfo.destination}`}
                   </p>
                 </div>
                 <div className='mt-2'>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useState } from 'react';
 import Calendar from './Calender';
 import Button from '../Button/Button';
@@ -6,10 +7,12 @@ import { AuthContext } from '../../providers/AuthProvider';
 import BookingModal from '../Modal/BookingModal';
 import Swal from 'sweetalert2';
 import { addBooking, updateStatus } from '../../api/bookings';
+import useAdmin from '../../hooks/useAdmin';
 
 const RoomBooking = ({ roomData }) => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const [isAdmin] = useAdmin();
   const closeModal = () => {
     setIsOpen(false);
   };
@@ -21,7 +24,7 @@ const RoomBooking = ({ roomData }) => {
     key: 'selection',
   });
 
-  const [couponCode, setCouponCode] = useState(''); // State for coupon code
+  const [couponCode, setCouponCode] = useState(''); 
 
   const handleSelect = (ranges) => {
     const selectedRange = ranges.selection;
@@ -49,10 +52,10 @@ const RoomBooking = ({ roomData }) => {
 
   const applyCouponCode = (originalPrice, code) => {
     if (code === 'privateye') {
-      // Apply a 10% discount for the 'privateye' coupon
+     
       return originalPrice * 0.9;
     }
-    return originalPrice; // No discount applied
+    return originalPrice; 
   };
 
   // Price Calculation
@@ -141,7 +144,7 @@ const RoomBooking = ({ roomData }) => {
       <div className='p-4'>
         <Button
           onClick={() => setIsOpen(true)}
-          disabled={roomData.host.email === user.email || roomData.booked}
+          disabled={roomData.host.email === user.email || roomData.booked || isAdmin}
           label='Book Now'
         />
       </div>

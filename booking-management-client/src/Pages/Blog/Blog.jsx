@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 
-const Notification = () => {
+const Blog = () => {
     return (
         <div>
-            <h2>Notifications</h2>
+            <h2>Blog</h2>
         </div>
     );
 };
 
-export default Notification;
+export default Blog;

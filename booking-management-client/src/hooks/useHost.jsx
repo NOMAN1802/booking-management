@@ -10,9 +10,9 @@ const useHost = () => {
         queryFn: async () => {
             const res = await axiosSecure.get(`/users/host/${user?.email}`);
             console.log('is host response', res);
-            return res.data.host;
-        }
-    })
+            return res.data.Host;
+        },
+    });
     return [isHost, isHostLoading]
 };
 export default useHost;

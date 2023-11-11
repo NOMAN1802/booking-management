@@ -8,7 +8,7 @@ import { FaBlog,FaUsersGear } from 'react-icons/fa6'
 import { AiOutlineCar} from 'react-icons/ai'
 import { AiOutlineBars, AiOutlineHeart } from 'react-icons/ai'
 import { BsBell, BsFillHouseAddFill } from 'react-icons/bs'
-import { FaClipboardList, FaHome, FaRegUserCircle, FaUserAlt } from 'react-icons/fa'
+import { FaClipboardList, FaHome, FaRegCreditCard, FaRegUserCircle, FaUserAlt } from 'react-icons/fa'
 import useAdmin from '../../hooks/useAdmin'
 import useHost from '../../hooks/useHost'
 const Sidebar = () => {
@@ -187,15 +187,15 @@ const Sidebar = () => {
           </NavLink>
                     
                   <NavLink
-            to='/dashboard/notification'
+            to='/dashboard/payment'
             className={({ isActive }) =>
               `flex items-center px-4 py-2 mt-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
                 isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
               }`
             }
           >
-            <BsBell className='w-5 h-5'></BsBell>
-            <span className='mx-4 font-medium'>Notifications</span>
+            <FaRegCreditCard className='w-5 h-5'></FaRegCreditCard>
+            <span className='mx-4 font-medium'>Payment History</span>
           </NavLink>
                
                   <NavLink

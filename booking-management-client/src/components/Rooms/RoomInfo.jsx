@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { FaWifi,  FaTv, FaCar, FaPaw } from 'react-icons/fa';
 
@@ -12,10 +13,11 @@ const RoomInfo = ({ roomData }) => {
               flex 
               flex-row 
               items-center
-              gap-2
+              gap-6
+              
             '
         >
-          <div>Hosted by {roomData?.host?.name}</div>
+          <div>Hosted by   {roomData?.host?.name}</div>
 
           <img
             className='rounded-full'
@@ -35,9 +37,9 @@ const RoomInfo = ({ roomData }) => {
               text-neutral-500
             '
         >
-          <div>Total guest: {roomData?.total_guest}</div>
-          <div>Bed rooms: {roomData?.bedrooms}</div>
-          <div>Bath rooms: {roomData?.bathrooms}</div>
+        <div className='border border-rose-500 p-4 w-36 gap-2 flex items-center justify-center rounded hover:scale-110'>Total guest: {roomData?.total_guest}</div>
+          <div className='border border-rose-500 p-4 w-36 gap-2 flex items-center justify-center rounded hover:scale-110'>Bed rooms: {roomData?.bedrooms}</div>
+          <div className='border border-rose-500 p-4 w-36 gap-2 flex items-center justify-center rounded hover:scale-110'>Bath rooms: {roomData?.bathrooms}</div>
         </div>
       </div>
 
@@ -50,7 +52,7 @@ const RoomInfo = ({ roomData }) => {
       <hr />
 
        <div className='flex flex-wrap gap-4'>
-        {roomData.facilities.map((facility, index) => (
+        {roomData.facilities?.map((facility, index) => (
           <div key={index} className='flex items-center gap-2 group'>
             {facility === 'wifi' && (
               <div className='border border-rose-500 p-6 w-32 gap-2 flex items-center justify-center rounded group-hover:scale-110'>

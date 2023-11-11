@@ -20,7 +20,7 @@ const RoomCategoryCard = ({ label, image, selected }) => {
   
       const url = qs.stringifyUrl(
         {
-          url: '/',
+          url: '/room',
           query: updatedQuery,
         },
         { skipNull: true }

@@ -6,7 +6,7 @@ import Home from "../Pages/Home/Home";
 import DashboardLayout from "../Layout/DashboardLayout";
 import MyDashboard from "../Pages/Dashboard/MyDashboard";
 import Profile from "../Pages/Dashboard/Profile";
-import Notification from "../Pages/Dashboard/Notification";
+import Payment from "../Pages/Dashboard/Payment";
 import MyOrders from "../Pages/Dashboard/MyOrders";
 import WishList from "../Pages/Dashboard/WishList";
 import PrivateRoute from './PrivateRoute'
@@ -25,6 +25,9 @@ import ManageCars from "../Pages/AdminDashboard/ManageCars";
 import { getRoom } from "../api/rooms";
 import CarDetails from "../Pages/CarDetails/CarDetails";
 import { getCar } from "../api/cars";
+import Cars from "../components/Cars/Cars";
+import Rooms from "../components/Rooms/Rooms";
+import Blog from "../Pages/Blog/Blog";
 
 
 
@@ -37,6 +40,18 @@ import { getCar } from "../api/cars";
             {
                 path:'/',
                 element:<Home></Home>
+            },
+            {
+                path:'/room',
+                element:<Rooms/>
+            },
+            {
+                path:'/car',
+                element:<Cars/>
+            },
+            {
+               path: '/blog',
+               element:<Blog/>
             },
             {
                 path: '/room/:id',
@@ -75,8 +90,8 @@ import { getCar } from "../api/cars";
                 element:<Profile></Profile>
             },
             {
-                path:'notification',
-                element:<Notification></Notification>
+                path:'payment',
+                element:<Payment/>
             },
             {
                 path:'myOrders',

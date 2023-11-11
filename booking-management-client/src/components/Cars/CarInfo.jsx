@@ -1,3 +1,6 @@
+import { FaWifi, FaCar } from 'react-icons/fa';
+import { FaRadio } from 'react-icons/fa6'
+import { MdAirlineSeatReclineExtra } from 'react-icons/md'
 const RoomInfo = ({carData}) => {
     return (
       <div className='col-span-4 flex flex-col gap-8'>
@@ -32,9 +35,10 @@ const RoomInfo = ({carData}) => {
                 text-neutral-500
               '
           >
-            <div>Total Seat: {carData?.total_seat}</div>
-            <div>Capacity of baggage: {carData?.baggage}</div>
-            <div>Total doors:{carData?.doors}</div>
+            <div className='border border-rose-500 p-6 w-36 gap-2 flex items-center justify-center rounded hover:scale-110'> Seat: {carData?.total_seat}</div>
+            <div className='border border-rose-500 p-6 w-36 gap-2 flex items-center justify-center rounded hover:scale-110'> Baggage: {carData?.baggage}</div>
+            <div className='border border-rose-500 p-6 w-36 gap-2 flex items-center justify-center rounded hover:scale-110'> Doors:{carData?.doors}</div>
+            <div className='border border-rose-500 p-6 w-36 gap-2 flex items-center justify-center rounded hover:scale-110'> Type:{carData?.carType}</div>
           </div>
         </div>
   
@@ -46,6 +50,32 @@ const RoomInfo = ({carData}) => {
           {carData?.description}
         </div>
         <hr />
+        <div className='flex flex-wrap gap-4'>
+        {carData?.facilities?.map((facility, index) => (
+          <div key={index} className='flex items-center gap-2 group'>
+            {facility === 'wifi' && (
+              <div className='border border-rose-500 p-6 w-32 gap-2 flex items-center justify-center rounded group-hover:scale-110'>
+                Wifi <FaWifi />
+              </div>
+            )}
+            {facility === 'parking' && (
+              <div className='border border-rose-500 p-6 w-32 gap-2 flex items-center justify-center rounded group-hover:scale-110'>
+                Parking <FaCar />
+              </div>
+            )}
+            {facility === 'radio' && (
+              <div className='border border-rose-500 p-6 w-32 gap-2 flex items-center justify-center rounded group-hover:scale-110'>
+                FM <FaRadio />
+              </div>
+            )}
+            {facility === 'airBag' && (
+              <div className='border border-rose-500 p-6 w-32 gap-2 flex items-center justify-center rounded group-hover:scale-110'>
+                Air Bags <MdAirlineSeatReclineExtra />
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
       </div>
     )
   }

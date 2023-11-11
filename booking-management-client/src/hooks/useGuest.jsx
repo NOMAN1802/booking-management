@@ -10,7 +10,7 @@ const useGuest = () => {
         queryFn: async () => {
             const res = await axiosSecure.get(`/users/guest/${user?.email}`);
             console.log('is guest response', res);
-            return res.data.guest;
+            return res.data.Guest;
         }
     })
     return [isGuest, isGuestLoading]

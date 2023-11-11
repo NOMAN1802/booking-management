@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useState } from 'react';
 import AddRoomForm from '../../components/Forms/AddRoomForm';
 import { imageUpload } from '../../api/utils';

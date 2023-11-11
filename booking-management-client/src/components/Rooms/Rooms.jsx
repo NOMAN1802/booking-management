@@ -6,6 +6,8 @@ import Loader from '../Shared/Loader'
 import { useSearchParams } from 'react-router-dom'
 import Heading from '../Heading/Heading'
 import { getAllRooms } from '../../api/rooms'
+import RoomCategories from '../Categories/roomCategories'
+import SectionTitle from '../SectionTitle/SectionTitle'
 
 const Rooms = () => {
   const [params, setParams] = useSearchParams()
@@ -34,6 +36,13 @@ const Rooms = () => {
   }
   return (
     <Container>
+      <RoomCategories/>
+
+      <SectionTitle 
+           subHeading={"Choose what suits you best"}
+           heading={"Available Rooms"}
+           >
+           </SectionTitle>
       {rooms && rooms.length > 0 ? (
         <div className='pt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-8'>
           {rooms.map((room, index) => (

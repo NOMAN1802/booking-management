@@ -3,6 +3,9 @@ import React from 'react'
 import { DateRange } from 'react-date-range'
 import { TbFidgetSpinner } from 'react-icons/tb'
 import { carCategories } from '../Categories/carCategoriesData'
+import { FaCar, FaWifi } from 'react-icons/fa'
+import { FaRadio } from 'react-icons/fa6'
+import { MdAirlineSeatReclineExtra } from 'react-icons/md'
 const AddCarForm = ({
   handleSubmit,
   dates,
@@ -10,6 +13,8 @@ const AddCarForm = ({
   loading,
   handleImageChange,
   uploadButtonText,
+  selected,
+  handleFcClick,
 }) => {
   return (
     <div className='w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50'>
@@ -31,19 +36,38 @@ const AddCarForm = ({
             </div>
 
             <div className='space-y-1 text-sm'>
-              <label htmlFor='category' className='block text-gray-600'>
-                Type
+              <label htmlFor='carType' className='block text-gray-600'>
+                Car Type
               </label>
               <select
                 required
                 className='w-full px-4 py-3 border-rose-300 focus:outline-rose-500 rounded-md'
-                name='type'
+                name='carType'
               >
                 {carCategories.map(category => (
                   <option value={category.label} key={category.label}>
                     {category.label}
                   </option>
                 ))}
+              </select>
+            </div>
+            <div className='space-y-1 text-sm'>
+              <label htmlFor='type' className='block text-gray-600'>
+                 Type
+              </label>
+              <select
+                required
+                className='w-full px-4 py-3 border-rose-300 focus:outline-rose-500 rounded-md'
+                name='type'
+              >
+               
+                  <option >
+                    Regular
+                  </option>
+                  <option >
+                    Featured
+                  </option>
+               
               </select>
             </div>
 
@@ -161,6 +185,34 @@ const AddCarForm = ({
                 className='block rounded-md focus:rose-300 w-full h-32 px-4 py-3 text-gray-800  border border-rose-300 focus:outline-rose-500 '
                 name='description'
               ></textarea>
+            </div>
+             {/* Facilities */}
+             <div className="space-y-1">
+              <label htmlFor="facilities" className="block text-gray-600">
+                Facilities
+              </label>
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { name: 'wifi', label: 'Wifi', icon: <FaWifi /> },
+                  { name: 'parking', label: 'Parking', icon: <FaCar /> },
+                  { name: 'radio', label: 'Radio', icon: <FaRadio /> },
+                  { name: 'airbag', label: 'Airbag', icon: <MdAirlineSeatReclineExtra /> },
+                ].map((facility) => (
+                  <label
+                    key={facility.name}
+                    className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer"
+                  >
+                    <input
+                      type='checkbox'
+                      name={facility.name}
+                      checked={selected.includes(facility.name)}
+                      onChange={handleFcClick}
+                    />
+                    {facility.icon}
+                    <span>{facility.label}</span>
+                  </label>
+                ))}
+              </div>
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { AuthContext } from '../../providers/AuthProvider';
 import Container from '../../components/Container/Container';
 import MyOrdersRow from './MyOrdersRow';
 import { getBookings } from '../../api/bookings';
+import SectionTitle from '../../components/SectionTitle/SectionTitle';
 
 const MyOrders = () => {
 
@@ -19,7 +20,11 @@ const MyOrders = () => {
     return (
         <Container>
 
-        <h1 className='text-center text-3xl text-gray-700 my-8 font-semibold'>My bookings: {bookings.length}</h1>
+<SectionTitle 
+           subHeading={"My booking Info"}
+           heading={"My booking"}
+           >
+           </SectionTitle>
         <div className='rounded shadow-sm bg-gray-50 w-full sm:overflow-x-auto'>
 
             <div className="overflow-x-auto">
@@ -31,7 +36,7 @@ const MyOrders = () => {
                                 #
                             </th>
                             <th>Photo</th>
-                            <th>Title</th>
+                            <th>Title/Destination</th>
                             <th>Location</th>
                             <th>Price</th>
                             <th>Delete</th>

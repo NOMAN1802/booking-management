@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { FaChevronDown } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import NestedDropdown from './NestedDropdown';
+
 
 const ServiceDropdown = () => {
 
@@ -46,13 +46,13 @@ const ServiceDropdown = () => {
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  to='/' // Replace with your hotels route
+                  to='/room' // Replace with your hotels route
                   className={`${
                     active && 'bg-gray-100 text-pink-400'
                   } group flex w-full items-center rounded-md px-2 py-2 text-base font-normal`}
                 >
 
-                  Hotel
+                  Rooms
                   {/* <NestedDropdown
                     label="Hotel"
                     subItems={[
@@ -64,7 +64,7 @@ const ServiceDropdown = () => {
                 </Link>
               )}
             </Menu.Item>
-            <Menu.Item>
+            {/* <Menu.Item>
               {({ active }) => (
                 <Link
                   to='/apartments' // Replace with your apartments route
@@ -73,21 +73,21 @@ const ServiceDropdown = () => {
                   Apartment
                 </Link>
               )}
-            </Menu.Item>
+            </Menu.Item> */}
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  to='/cars' // Replace with your cars route
+                  to='/car' 
                   className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-normal`}
                 >
-                  Car
+                  Cars
                 </Link>
               )}
             </Menu.Item>
-            <Menu.Item>
+            {/* <Menu.Item>
               {({ active }) => (
                 <Link
-                  to='/spaces' // Replace with your spaces route
+                  to='/spaces' 
                   className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-normal`}
                 >
                   Space
@@ -97,7 +97,7 @@ const ServiceDropdown = () => {
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  to='/beauty' // Replace with your beauty route
+                  to='/beauty' 
                   className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-normal`}
                 >
                   Beauty
@@ -107,13 +107,13 @@ const ServiceDropdown = () => {
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  to='/tours' // Replace with your tours route
+                  to='/tours' 
                   className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-normal`}
                 >
                   Tour
                 </Link>
               )}
-            </Menu.Item>
+            </Menu.Item> */}
             {/* Add more menu items as needed */}
           </div>
         </Menu.Items>

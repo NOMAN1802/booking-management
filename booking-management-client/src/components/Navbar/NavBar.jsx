@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import Button from './Button';
 import { AuthContext } from '../../providers/AuthProvider';
 import MenuDropdown from './MenuDropdown';
@@ -42,21 +42,29 @@ const NavBar = () => {
           className={`${isOpen ? 'flex flex-col' : 'hidden'
             } lg:flex lg:gap-8 lg:mr-16 mt-4 lg:mt-0 text-[18px] lg:flex-row`}
         >
-          <Link to='/' onClick={() => setIsOpen(false)}>
-            <li className='hover:text-pink-400 transition border-b-2 border-white hover:border-pink-400 cursor-pointer mb-2 lg:mb-0 text-base font-medium'>
-              Home
+         
+            <li>
+            <NavLink onClick={() => setIsOpen(false)}
+                to="/"
+                className={({ isActive }) => (isActive ? "active1" : "default")}
+                title="Home"
+              >
+                Home
+              </NavLink>
             </li>
-          </Link>
+         
 
           <ServiceDropdown
         
       />
-
-          <Link to='/blog' onClick={() => setIsOpen(false)}>
-            <li className='hover:text-pink-400 transition border-b-2 border-white hover:border-pink-400 cursor-pointer mb-2 lg:mb-0 text-base font-medium'>
+           <li>
+          <NavLink to='/blog'
+            className={({ isActive }) => (isActive ? "active1" : "default")}
+            title="Home"
+           onClick={() => setIsOpen(false)}>
               Blog
-            </li>
-          </Link>
+          </NavLink>
+          </li>
           <Link to='/other-pages' onClick={() => setIsOpen(false)}>
             <li className='hover:text-pink-400 transition border-b-2 border-white hover:border-pink-400 cursor-pointer mb-2 lg:mb-0 text-base font-medium'>
               Other Pages

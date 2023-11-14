@@ -43,16 +43,15 @@ const SearchForm = ({ setRooms, setIsOpen }) => {
     e.preventDefault();
     const form = e.target;
     const destination = form.destination.value;
-    const checkIn = formateDate(checkInDate);
-    const checkOut = formateDate(checkOutDate);
+    const checkIn = checkInDate ? checkInDate.toISOString() : "";
+    const checkOut = checkOutDate ? checkOutDate.toISOString() : "";
     const guestTotal = totalGuests;
-    
 
     const searchQuery = {
       location: destination,
-      checkIn: parseFormattedDate(checkInDate),
-      checkOut: parseFormattedDate(checkOutDate),
-      guest: guestTotal
+      checkIn,
+      checkOut,
+      guest: guestTotal,
     };
     const queryString = Object.keys(searchQuery)
       .map(

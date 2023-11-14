@@ -80,15 +80,15 @@ const AddCarForm = ({
           </div>
           <div className='space-y-6'>
             <div className='space-y-1 text-sm'>
-              <label htmlFor='destination' className='block text-gray-600'>
-                Destination
+              <label htmlFor='title' className='block text-gray-600'>
+                Title
               </label>
               <input
                 className='w-full px-4 py-3 text-gray-800 border border-rose-300 focus:outline-rose-500 rounded-md '
-                name='destination'
-                id='destination'
+                name='title'
+                id='title'
                 type='text'
-                placeholder='Destination'
+                placeholder='Title'
                 required
               />
             </div>

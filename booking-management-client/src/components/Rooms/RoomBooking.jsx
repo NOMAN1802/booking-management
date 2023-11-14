@@ -86,37 +86,37 @@ const RoomBooking = ({ roomData }) => {
   };
   
 
-  const modalHandler = () => {
-    addBooking(bookingInfo)
-      .then((data) => {
-        console.log(data);
-        updateStatus(roomData?._id, true)
-          .then((data) => {
-            console.log(data);
+  // const modalHandler = () => {
+  //   addBooking(bookingInfo)
+  //     .then((data) => {
+  //       console.log(data);
+  //       updateStatus(roomData?._id, true)
+  //         .then((data) => {
+  //           console.log(data);
 
-            // Update the bookingInfo with the coupon-discounted price
-            const updatedBookingInfo = {
-              ...bookingInfo,
-              price: bookingInfo.price * 0.9,
-            };
+  //           // Update the bookingInfo with the coupon-discounted price
+  //           const updatedBookingInfo = {
+  //             ...bookingInfo,
+  //             price: bookingInfo.price * 0.9,
+  //           };
 
-            setBookingInfo(updatedBookingInfo);
+  //           setBookingInfo(updatedBookingInfo);
 
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              title: 'Room Booked Successfully',
-              showConfirmButton: false,
-              timer: 1500,
-            });
-            console.log(bookingInfo);
-            navigate('/dashboard/myOrders');
-            closeModal();
-          })
-          .catch((err) => console.log(err));
-      })
-      .catch((err) => console.log(err));
-  };
+  //           Swal.fire({
+  //             position: 'top-end',
+  //             icon: 'success',
+  //             title: 'Room Booked Successfully',
+  //             showConfirmButton: false,
+  //             timer: 1500,
+  //           });
+  //           console.log(bookingInfo);
+  //           navigate('/dashboard/myOrders');
+  //           closeModal();
+  //         })
+  //         .catch((err) => console.log(err));
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   return (
     <div className='bg-white rounded border-[1px] border-neutral-200 overflow-hidden'>
@@ -156,7 +156,7 @@ const RoomBooking = ({ roomData }) => {
      
 
       <BookingModal
-        modalHandler={modalHandler}
+        // modalHandler={modalHandler}
         bookingInfo={bookingInfo}
         isOpen={isOpen}
         closeModal={closeModal}

@@ -3,6 +3,7 @@ import Container from '../../components/Container/Container';
 import { useQuery } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../../providers/AuthProvider';
+import MyOrders from './MyOrders';
 
 const MyDashboard = () => {
 
@@ -50,7 +51,7 @@ const MyDashboard = () => {
       )}
     </div>
 
-    <h2>This is Guest</h2>
+    <MyOrders/>
   </Container>
   );
 };

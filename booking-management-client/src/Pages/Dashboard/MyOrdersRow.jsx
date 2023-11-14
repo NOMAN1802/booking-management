@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { FaTrash } from 'react-icons/fa';
 import DeleteModal from '../../components/Modal/DeleteModal';
-import { deleteBooking, updateStatus } from '../../api/bookings';
+import { deleteBooking, updateCarStatus, updateStatus } from '../../api/bookings';
 import Swal from 'sweetalert2';
 
 const MyOrdersRow = ({booking, fetchBookings,index}) => {
@@ -17,24 +17,56 @@ const MyOrdersRow = ({booking, fetchBookings,index}) => {
     function closeModal() {
       setIsOpen(false)
     }
-
     const modalHandler = id => {
-      deleteBooking(id).then(data => {
-        console.log(data)
-        updateStatus(booking.roomId, false).then(data => {
-          console.log(data)
-          fetchBookings()
-          Swal.fire({
-            position: 'top-end',
-            icon: 'success',
-            title: "Booking cancel",
-            showConfirmButton: false,
-            timer: 1500,
-          });
+      deleteBooking(id)
+        .then(deleteData => {
+          console.log('Booking deletion result:', deleteData);
+    
+          // Determine the item ID and update the status accordingly
+          const itemId = booking?.roomId || booking?.carId;
+    
+          // Choose the appropriate update function based on the type of booking
+          const updatePromise = booking?.roomId
+            ? updateStatus(itemId, false)
+            : booking?.carId
+            ? updateCarStatus(itemId, false)
+            : Promise.resolve(); 
+    
+          // Handle update status result
+          updatePromise
+            .then(updateData => {
+              console.log('Status update result:', updateData);
+    
+              // Fetch updated bookings and show success message
+              fetchBookings();
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Booking canceled',
+                showConfirmButton: false,
+                timer: 1500,
+              });
+    
+              // Close the modal
+              closeModal();
+            })
+            .catch(updateError => {
+              console.error('Error updating status:', updateError);
+              // Handle error updating status if needed
+    
+              // Close the modal even in case of an error
+              closeModal();
+            });
         })
-      })
-      closeModal()
-    }
+        .catch(deleteError => {
+          console.error('Error deleting booking:', deleteError);
+          // Handle error deleting booking if needed
+    
+          // Close the modal even in case of an error
+          closeModal();
+        });
+    };
+    
     return (
         
             
@@ -50,7 +82,7 @@ const MyOrdersRow = ({booking, fetchBookings,index}) => {
             </div>
         </td>
         <td>
-        {booking.title ? booking.title : booking.destination}
+        {booking.title }
         </td>
         <td>{booking.location}</td>
 

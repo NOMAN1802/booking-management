@@ -4,7 +4,7 @@ import useHost from '../../hooks/useHost';
 import { AuthContext } from '../../providers/AuthProvider';
 import { useContext } from 'react';
 
-const HeartButton = ({ handleWishList, room, car }) => {
+const HeartButton = ({ handleWishList, room, car,blog}) => {
     
     
   const{user} = useContext(AuthContext);
@@ -17,11 +17,17 @@ const HeartButton = ({ handleWishList, room, car }) => {
       } else if (item === 'car') {
         handleWishList(car);
       }
+      else if(item === 'blog'){
+        handleWishList(blog);
+      }
     };
+    
+
   return (
     <button
-      onClick={() => (room ?  handleClick('room') :  handleClick('car'))}
-      disabled={isAdmin || isHost}
+      // onClick={() => (room ?  handleClick('room') :  handleClick('car'))}
+      onClick={() => (room ? handleClick('room') : (car ? handleClick('car') : handleClick('blog')))}
+      disabled={isAdmin || isHost || !user}
       className='
         relative
         hover:opacity-80

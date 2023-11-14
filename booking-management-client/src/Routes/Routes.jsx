@@ -27,7 +27,9 @@ import CarDetails from "../Pages/CarDetails/CarDetails";
 import { getCar } from "../api/cars";
 import Cars from "../components/Cars/Cars";
 import Rooms from "../components/Rooms/Rooms";
-import Blog from "../Pages/Blog/Blog";
+import Blog from "../components/Blogs/Blog";
+import { getBlog } from "../api/blogs";
+import BlogDetails from "../Pages/BlogDetails/BlogDetails";
 
 
 
@@ -66,6 +68,13 @@ import Blog from "../Pages/Blog/Blog";
                     <CarDetails/> 
                 </PrivateRoute>),
                 loader:  ({params}) => getCar(params.id)   
+            },
+            {
+                path: '/blog/:id',
+                element:(<PrivateRoute>
+                    <BlogDetails/> 
+                </PrivateRoute>),
+                loader:  ({params}) => getBlog(params.id)   
             }
         ]
     },

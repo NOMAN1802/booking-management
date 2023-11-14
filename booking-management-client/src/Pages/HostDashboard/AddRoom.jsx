@@ -6,6 +6,7 @@ import { AuthContext } from '../../providers/AuthProvider';
 import { addRoom } from '../../api/rooms';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import SectionTitle from '../../components/SectionTitle/SectionTitle';
 
 const AddRoom = () => {
   const [loading, setLoading] = useState(false);
@@ -113,6 +114,11 @@ const AddRoom = () => {
 
   return (
     <div>
+      <SectionTitle 
+           subHeading={"Add your rooms for booking"}
+           heading={"Add rooms"}
+           >
+           </SectionTitle>
       <AddRoomForm
         handleSubmit={handleSubmit}
         loading={loading}

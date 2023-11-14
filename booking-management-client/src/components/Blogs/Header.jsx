@@ -2,19 +2,19 @@
 import React from 'react'
 import Heading from '../Heading/Heading'
 
-const Header = ({carData}) => {
+const Header = ({blogData}) => {
   return (
     <>
       <Heading
          
-        title={carData?.location}
-        subtitle={carData?.title}
+        title={blogData?.title}
+        subtitle={blogData?.location}
         
       />
       <div className='w-full md:h-[60vh] overflow-hidden rounded-xl'>
         <img
           className='object-cover w-full'
-          src= {carData.image}
+          src= {blogData.image}
           alt='header image'
         />
       </div>

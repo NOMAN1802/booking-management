@@ -67,7 +67,7 @@ const CarBooking = ({carData}) => {
     price: totalPrice,
     to: value.endDate,
     from: value.startDate,
-    destination: carData.destination,
+    title: carData.title,
     carId: carData._id,
     image: carData.image,
   });
@@ -84,37 +84,37 @@ const CarBooking = ({carData}) => {
   };
   
 
-  const modalHandler = () => {
-    addBooking(bookingInfo)
-      .then((data) => {
-        console.log(data);
-        updateCarStatus(carData?._id, true)
-          .then((data) => {
-            console.log(data);
+  // const modalHandler = () => {
+  //   addBooking(bookingInfo)
+  //     .then((data) => {
+  //       console.log(data);
+  //       updateCarStatus(carData?._id, true)
+  //         .then((data) => {
+  //           console.log(data);
 
-            // Update the bookingInfo with the coupon-discounted price
-            const updatedBookingInfo = {
-              ...bookingInfo,
-              price: bookingInfo.price * 0.9,
-            };
+  //           // Update the bookingInfo with the coupon-discounted price
+  //           const updatedBookingInfo = {
+  //             ...bookingInfo,
+  //             price: bookingInfo.price * 0.9,
+  //           };
 
-            setBookingInfo(updatedBookingInfo);
+  //           setBookingInfo(updatedBookingInfo);
 
-            Swal.fire({
-              position: 'top-end',
-              icon: 'success',
-              title: 'Car Booked Successfully',
-              showConfirmButton: false,
-              timer: 1500,
-            });
-            console.log(bookingInfo);
-            navigate('/dashboard/myOrders');
-            closeModal();
-          })
-          .catch((err) => console.log(err));
-      })
-      .catch((err) => console.log(err));
-  };
+  //           Swal.fire({
+  //             position: 'top-end',
+  //             icon: 'success',
+  //             title: 'Car Booked Successfully',
+  //             showConfirmButton: false,
+  //             timer: 1500,
+  //           });
+  //           console.log(bookingInfo);
+  //           navigate('/dashboard/myOrders');
+  //           closeModal();
+  //         })
+  //         .catch((err) => console.log(err));
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
   return (
     <div className='bg-white rounded border-[1px] border-neutral-200 overflow-hidden'>
       <div className='flex flex-row items-center gap-2 p-4 text-white bg-gray-400'>
@@ -141,7 +141,7 @@ const CarBooking = ({carData}) => {
       <div className='p-4'>
         <Button
           onClick={() => setIsOpen(true)}
-          disabled={carData.host.email === user.email || carData.booked}
+          disabled={carData?.host?.email === user?.email || carData?.booked}
           label='Book Now'
         />
       </div>
@@ -153,7 +153,7 @@ const CarBooking = ({carData}) => {
      
 
       <BookingModal
-        modalHandler={modalHandler}
+        // modalHandler={modalHandler}
         bookingInfo={bookingInfo}
         isOpen={isOpen}
         closeModal={closeModal}

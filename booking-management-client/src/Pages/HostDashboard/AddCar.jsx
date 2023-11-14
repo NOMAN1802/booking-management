@@ -6,6 +6,7 @@ import { addCar } from '../../api/cars';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import AddCarForm from '../../components/Forms/AddCarForm';
+import SectionTitle from '../../components/SectionTitle/SectionTitle';
 
 const AddCar = () => {
     const [loading, setLoading] = useState(false);
@@ -36,7 +37,7 @@ const AddCar = () => {
         event.preventDefault();
         setLoading(true);
         const location = event.target.location.value;
-        const destination = event.target.destination.value;
+        const title = event.target.title.value;
         const from = dates.startDate;
         const to = dates.endDate;
         const price = event.target.price.value;
@@ -55,7 +56,7 @@ const AddCar = () => {
             const carData = {
                 image : data.data.display_url,
                 location,
-                destination,
+                title,
                  total_seat,
                  baggage,
                  doors,
@@ -112,6 +113,11 @@ const AddCar = () => {
     }
     return (
      <div>
+        <SectionTitle 
+           subHeading={"Add your car for booking"}
+           heading={"Add Car"}
+           >
+           </SectionTitle>
         <AddCarForm handleSubmit={handleSubmit}
          loading={loading} 
          handleImageChange={handleImageChange}

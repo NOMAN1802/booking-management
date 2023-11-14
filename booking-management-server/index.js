@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 const port = process.env.PORT || 5000;
+const stripe = require("stripe")(process.env.PAYMENT_SECRET_KEY);
 
 
 // middleWare 
@@ -47,8 +48,29 @@ async function run() {
     const usersCollection = client.db("bookingDB").collection("users");
     const roomsCollection = client.db("bookingDB").collection("rooms");
     const carsCollection = client.db("bookingDB").collection("cars");
+    const blogsCollection = client.db("bookingDB").collection("blogs");
     const wishListCollection = client.db('bookingDB').collection('wishList');
     const bookingsCollection = client.db("bookingDB").collection("bookings");
+
+
+    // Generate client secret
+
+    app.post('/create-payment-intent', verifyJWT, async (req, res)=>{
+      const {price} = req.body
+      if(price){
+        const amount = parseFloat(price) * 100
+        const paymentIntent = await stripe.paymentIntents.create({
+          amount:amount,
+          currency: 'usd',
+          payment_method_types: ['card']
+          
+        })
+        res.send({
+          clientSecret: paymentIntent.client_secret,
+        });
+      }
+
+    })
 
     app.post('/jwt', (req, res) => {
       const user = req.body;
@@ -69,7 +91,8 @@ async function run() {
       next();
 
     }
-
+    
+     
     // users related apis
 
     app.get('/users', async (req, res) => {
@@ -397,7 +420,7 @@ app.post('/wishList', async (req, res) => {
       const update = await roomsCollection.updateOne(query, updateDoc)
       res.send(update)
     })
-    // update room booking status
+    // update car booking status
     app.patch('/cars/status/:id', async (req, res) => {
       const id = req.params.id
       const status = req.body?.status
@@ -439,6 +462,42 @@ app.post('/wishList', async (req, res) => {
       const result = await bookingsCollection.deleteOne(query)
       res.send(result)
     })
+
+    //blog related api
+    // save blog in data base
+
+    app.post('/blogs', async (req, res) => {
+      const blogData = req.body;
+      blogData.date = new Date();
+      const result = await blogsCollection.insertOne(blogData);
+      res.send(result);
+    });
+    // get all blogs
+
+    app.get('/blogs', async (req, res) => {
+      const result = await blogsCollection.find().toArray()
+      res.send(result)
+    })
+
+  //  get featured blogs
+
+  app.get('/blogs/featured', async (req, res) => {
+    const query = {
+      type: 'Featured'
+    };
+    const result = await blogsCollection.find(query).toArray();
+    res.send(result);
+
+  });
+
+  // Get blog Details 
+
+  app.get('/blog/:id', async (req, res) => {
+    const id = req.params.id
+    const query = { _id: new ObjectId(id) }
+    const result = await blogsCollection.findOne(query)
+    res.send(result)
+  })
 
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");

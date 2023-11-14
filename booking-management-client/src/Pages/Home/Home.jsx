@@ -10,6 +10,7 @@ import FeaturedCars from '../../components/Cars/FeaturedCars';
 import Welcome from '../../components/Welcome/Welcome';
 import Prices from '../../components/Price/Price';
 import Testimonials from '../../components/Testimonials/Testimonials';
+import FeaturedBlogs from '../../components/Blogs/FeaturedBlogs';
 
 const Home = () => {
     return (
@@ -27,6 +28,9 @@ const Home = () => {
            <Prices/>
            <div  className='bg-gray-50 my-6'>
             <Testimonials/>
+           </div>
+           <div  className='bg-gray-50 my-6'>
+            <FeaturedBlogs/>
            </div>
         </div>
        

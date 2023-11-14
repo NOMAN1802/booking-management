@@ -26,6 +26,18 @@ export const carWishList = async carData =>{
     const data = await response.json()
     return data;
 }
+//Blog wishList
+export const blogWishList = async blogData =>{
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/wishList`, {
+        method: 'POST',
+        headers :{
+            'content-type': 'application/json',
+        },
+        body: JSON.stringify(blogData),
+    })
+    const data = await response.json()
+    return data;
+}
 
 
 // Get all wishlist for a user by email

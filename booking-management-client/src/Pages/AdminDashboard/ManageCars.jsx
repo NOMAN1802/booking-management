@@ -4,6 +4,7 @@ import React from 'react';
 import Swal from 'sweetalert2';
 import Container from '../../components/Container/Container';
 import { FcApproval, FcDisapprove } from 'react-icons/fc';
+import SectionTitle from '../../components/SectionTitle/SectionTitle';
 
 const ManageCars = () => {
 
@@ -53,7 +54,11 @@ const ManageCars = () => {
     return (
         <Container>
 
-        <h1 className='text-center text-3xl text-gray-700 my-8 font-semibold'>All Cars: {cars.length}</h1>
+        <SectionTitle 
+           subHeading={"Approve Cars for booking"}
+           heading={"Manage Car"}
+           >
+           </SectionTitle>
         <div className='rounded shadow-sm bg-gray-50 w-full sm:overflow-x-auto'>
 
             <div className="overflow-x-auto">

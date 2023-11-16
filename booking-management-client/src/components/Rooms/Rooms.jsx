@@ -5,7 +5,7 @@ import Card from './Card'
 import Loader from '../Shared/Loader'
 import { useSearchParams } from 'react-router-dom'
 import Heading from '../Heading/Heading'
-import { getAllRooms } from '../../api/rooms'
+import { getAllRooms, getApprovedRooms } from '../../api/rooms'
 import RoomCategories from '../Categories/roomCategories'
 import SectionTitle from '../SectionTitle/SectionTitle'
 
@@ -17,7 +17,7 @@ const Rooms = () => {
   const [loading, setLoading] = useState(false)
   useEffect(() => {
     setLoading(true)
-    getAllRooms()
+    getApprovedRooms()
       .then(data => {
         if (category) {
           const filtered = data.filter(room => room.category === category)

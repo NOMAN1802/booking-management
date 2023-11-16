@@ -269,23 +269,15 @@ async function run() {
 
     app.get('/featured', async (req, res) => {
       const query = {
-        type: 'Featured'
+        type: 'Featured',
+        status: 'approved'
       };
       const result = await roomsCollection.find(query).toArray();
       res.send(result);
 
     });
 
-    // get featured cars
 
-    app.get('/featuredCar', async (req, res) => {
-      const query = {
-        type: 'Featured'
-      };
-      const result = await carsCollection.find(query).toArray();
-      res.send(result);
-
-    });
 
 
     // Get a single room
@@ -299,7 +291,7 @@ async function run() {
 
 
     // approve rooms get api 
-    app.get("/rooms/approved", async (req, res) => {
+    app.get("/approvedRoom", async (req, res) => {
       const approve = req.body;
       const query = {
         status: 'approved'
@@ -390,7 +382,7 @@ async function run() {
     })
 
 
-    
+
     // delete car
     app.delete('/cars/:id', async (req, res) => {
       const id = req.params.id
@@ -463,7 +455,27 @@ async function run() {
       const result = await carsCollection.find().toArray()
       res.send(result)
     })
+    // approve car get api 
+    app.get("/approvedCar", async (req, res) => {
+      const approve = req.body;
+      const query = {
+        status: 'approved'
+      }
+      const result = await carsCollection.find(query).toArray();
+      res.send(result);
+    });
 
+    // get featured cars
+
+    app.get('/featuredCar', async (req, res) => {
+      const query = {
+        type: 'Featured',
+        status: 'approved'
+      };
+      const result = await carsCollection.find(query).toArray();
+      res.send(result);
+
+    });
     // Get a single car
 
     app.get('/car/:id', async (req, res) => {
@@ -565,65 +577,65 @@ async function run() {
       res.send(result)
     })
 
-   // Get  blog by host email
-   app.get('/blogs/:email', async (req, res) => {
-    const email = req.params.email
-    const query = { 'host.email': email }
-    const result = await blogsCollection.find(query).toArray()
-    res.send(result)
-  })
+    // Get  blog by host email
+    app.get('/blogs/:email', async (req, res) => {
+      const email = req.params.email
+      const query = { 'host.email': email }
+      const result = await blogsCollection.find(query).toArray()
+      res.send(result)
+    })
 
-   // delete blog
-   app.delete('/blogs/:id', async (req, res) => {
-    const id = req.params.id
-    const query = { _id: new ObjectId(id) }
-    const result = await blogsCollection.deleteOne(query)
-    res.send(result)
-  })
+    // delete blog
+    app.delete('/blogs/:id', async (req, res) => {
+      const id = req.params.id
+      const query = { _id: new ObjectId(id) }
+      const result = await blogsCollection.deleteOne(query)
+      res.send(result)
+    })
 
-  // Update A blog
-  app.put('/blogs/:id', verifyJWT, async (req, res) => {
-    const blog = req.body
-    console.log(blog)
+    // Update A blog
+    app.put('/blogs/:id', verifyJWT, async (req, res) => {
+      const blog = req.body
+      console.log(blog)
 
-    const filter = { _id: new ObjectId(req.params.id) }
-    const options = { upsert: true }
-    const updateDoc = {
-      $set: blog,
-    }
-    const result = await blogsCollection.updateOne(filter, updateDoc, options)
-    res.send(result)
-  })
+      const filter = { _id: new ObjectId(req.params.id) }
+      const options = { upsert: true }
+      const updateDoc = {
+        $set: blog,
+      }
+      const result = await blogsCollection.updateOne(filter, updateDoc, options)
+      res.send(result)
+    })
 
 
-  //Car status change  api
+    //Car status change  api
 
-  app.patch('/blogs/approved/:id', async (req, res) => {
-    const id = req.params.id;
-    console.log(id);
-    const filter = { _id: new ObjectId(id) };
-    const updateDoc = {
-      $set: {
-        status: 'approved'
-      },
-    };
-    const result = await blogsCollection.updateOne(filter, updateDoc);
-    res.send(result);
+    app.patch('/blogs/approved/:id', async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const filter = { _id: new ObjectId(id) };
+      const updateDoc = {
+        $set: {
+          status: 'approved'
+        },
+      };
+      const result = await blogsCollection.updateOne(filter, updateDoc);
+      res.send(result);
 
-  })
+    })
 
-  app.patch('/blogs/denied/:id', async (req, res) => {
-    const id = req.params.id;
-    console.log(id);
-    const filter = { _id: new ObjectId(id) };
-    const updateDoc = {
-      $set: {
-        status: 'denied'
-      },
-    };
-    const result = await blogsCollection.updateOne(filter, updateDoc);
-    res.send(result);
-  })
+    app.patch('/blogs/denied/:id', async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const filter = { _id: new ObjectId(id) };
+      const updateDoc = {
+        $set: {
+          status: 'denied'
+        },
+      };
+      const result = await blogsCollection.updateOne(filter, updateDoc);
+      res.send(result);
+    })
     // review related api
 
     // Save a  review in database
@@ -639,6 +651,59 @@ async function run() {
       const result = await reviewsCollection.find().toArray()
       res.send(result)
     })
+
+
+    // Admin Dashboard API
+
+    app.get('/admin-status',verifyJWT, verifyAdmin, async(req,res) =>{
+      const users = await usersCollection.estimatedDocumentCount();
+      const rooms = await roomsCollection.estimatedDocumentCount();
+      const cars = await carsCollection.estimatedDocumentCount();
+      const blogs = await blogsCollection.estimatedDocumentCount();
+      const orders = await bookingsCollection.estimatedDocumentCount();
+  
+      // best way to get sum of a field is to use group and sum operation
+  
+      const payments = await bookingsCollection.find().toArray();
+      const TotalRevenue = payments.reduce( ( sum, payment) => sum + payment?.price, 0);
+      const revenue = TotalRevenue.toFixed(2); 
+  
+      res.send({
+        users,
+        rooms,
+        cars,
+        blogs,
+        orders,
+        revenue
+      })
+    })
+    app.get('/order-stats', verifyJWT, verifyAdmin, async (req, res) => {
+      try {
+        const pipeline = [
+          {
+            $group: {
+              _id: '$title', // Assuming 'title' is the category information
+              count: { $sum: 1 },
+              total: { $sum: '$price' }, // Assuming 'price' is the menu item price
+            },
+          },
+          {
+            $project: {
+              category: '$_id',
+              count: 1,
+              total: { $round: ['$total', 2] },
+              _id: 0,
+            },
+          },
+        ];
+    
+        const result = await bookingsCollection.aggregate(pipeline).toArray();
+        res.send(result);
+      } catch (error) {
+        console.error('Error in /order-stats:', error);
+        res.status(500).send('Internal Server Error');
+      }
+    });
 
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");

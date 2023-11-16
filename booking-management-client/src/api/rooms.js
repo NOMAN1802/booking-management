@@ -20,6 +20,14 @@ export const getAllRooms = async () =>{
     return data
 
 }
+// Get approved rooms
+
+export const getApprovedRooms = async () =>{
+   const response  = await fetch(`${import.meta.env.VITE_API_URL}/approvedRoom`)
+    const data = await response.json()
+    return data
+
+}
 
 
 //  Get featured rooms

@@ -5,7 +5,7 @@ import Card from './Card'
 import Loader from '../Shared/Loader'
 import { useSearchParams } from 'react-router-dom'
 import Heading from '../Heading/Heading'
-import { getAllCars } from '../../api/cars'
+import { getAllCars, getApprovedCars } from '../../api/cars'
 import CarCategories from '../Categories/CarCategories'
 import SectionTitle from '../SectionTitle/SectionTitle'
 
@@ -17,7 +17,7 @@ const Cars = () => {
   const [loading, setLoading] = useState(false)
   useEffect(() => {
     setLoading(true)
-    getAllCars()
+    getApprovedCars()
       .then(data => {
         if (carCategory) {
           const filtered = data.filter(car => car.type === carCategory)

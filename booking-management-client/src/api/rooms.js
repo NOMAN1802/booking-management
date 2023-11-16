@@ -21,27 +21,55 @@ export const getAllRooms = async () =>{
 
 }
 
-// export const getRooms = async () => {
-//     const url = `${import.meta.env.VITE_API_URL}/rooms`;
-//     const res = await fetch(url);
-//     const data = await res.json();
-//     return data;
-//   };
 
 //  Get featured rooms
 
 export const getFeaturedRooms = async () =>{
-
-    const response  = await fetch(`${import.meta.env.VITE_API_URL}/rooms/featured`)
-    const data = await response.json()
-    return data
+  const response  = await fetch(`${import.meta.env.VITE_API_URL}/featured`)
+  const data = await response.json()
+  return data
 
 }
 
 
-// Get room details
+// Get a  room details
 export const getRoom = async id => {
     const response = await fetch(`${import.meta.env.VITE_API_URL}/room/${id}`)
+    const data = await response.json()
+    return data
+  }
+
+  //get filtered rooms for hosts
+ export const getRooms = async email => {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/rooms/${email}`)
+  const data = await response.json()
+  return data
+}
+
+ // Delete a room
+export const deleteRoom = async id => {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}/rooms/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'content-type': 'application/json',
+    },
+  })
+  const result = await response.json()
+  return result
+}
+  
+
+  // update a room
+export const updateRoom = async (roomData, id) => {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/rooms/${id}`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem('access-token')}`,
+      },
+      body: JSON.stringify(roomData),
+    })
+  
     const data = await response.json()
     return data
   }

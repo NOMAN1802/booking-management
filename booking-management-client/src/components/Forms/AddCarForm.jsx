@@ -131,7 +131,7 @@ const AddCarForm = ({
               </div>
 
               <div className='space-y-1 text-sm'>
-                <label htmlFor='guest' className='block text-gray-600'>
+                <label htmlFor='seat' className='block text-gray-600'>
                   Total seats
                 </label>
                 <input

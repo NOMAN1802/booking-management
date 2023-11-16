@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react'
 import Container from '../Container/Container'
 import Card from './Card'
 import Loader from '../Shared/Loader'
-import {  getFeaturedRooms } from '../../api/rooms'
 import SectionTitle from '../SectionTitle/SectionTitle'
+import { getFeaturedRooms } from '../../api/rooms'
 
 const FeaturedRooms = () => {
     
@@ -13,7 +13,7 @@ const FeaturedRooms = () => {
     useEffect(() => {
       setLoading(true)
       getFeaturedRooms()
-        .then(data => {
+      .then(data => {
           setFeaturedRooms(data)
           setLoading(false)
         })
@@ -32,7 +32,7 @@ const FeaturedRooms = () => {
            </SectionTitle>
 
        <div className='pt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-8'>
-          {featuredRooms && featuredRooms?.map((room, index) => (
+       {featuredRooms.map((room, index) => (
             <Card key={index} room={room} />
           ))}
         </div>

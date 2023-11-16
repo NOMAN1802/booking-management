@@ -1,6 +1,7 @@
 import { FaWifi, FaCar } from 'react-icons/fa';
 import { FaRadio } from 'react-icons/fa6'
 import { MdAirlineSeatReclineExtra } from 'react-icons/md'
+import FeedBack from '../FeedBack/FeedBack';
 const RoomInfo = ({carData}) => {
     return (
       <div className='col-span-4 flex flex-col gap-8'>
@@ -75,6 +76,12 @@ const RoomInfo = ({carData}) => {
             )}
           </div>
         ))}
+       
+      </div>
+      <hr />
+        <div className='my-4'>
+        <p className='font-semibold text-2xl my-2'>Feed Back</p> 
+          <FeedBack/>
       </div>
       </div>
     )

@@ -49,21 +49,22 @@ async function run() {
     const roomsCollection = client.db("bookingDB").collection("rooms");
     const carsCollection = client.db("bookingDB").collection("cars");
     const blogsCollection = client.db("bookingDB").collection("blogs");
+    const reviewsCollection = client.db("bookingDB").collection("reviews");
     const wishListCollection = client.db('bookingDB').collection('wishList');
     const bookingsCollection = client.db("bookingDB").collection("bookings");
 
 
     // Generate client secret
 
-    app.post('/create-payment-intent', verifyJWT, async (req, res)=>{
-      const {price} = req.body
-      if(price){
+    app.post('/create-payment-intent', verifyJWT, async (req, res) => {
+      const { price } = req.body
+      if (price) {
         const amount = parseFloat(price) * 100
         const paymentIntent = await stripe.paymentIntents.create({
-          amount:amount,
+          amount: amount,
           currency: 'usd',
           payment_method_types: ['card']
-          
+
         })
         res.send({
           clientSecret: paymentIntent.client_secret,
@@ -91,8 +92,8 @@ async function run() {
       next();
 
     }
-    
-     
+
+
     // users related apis
 
     app.get('/users', async (req, res) => {
@@ -232,9 +233,41 @@ async function run() {
       res.send(result)
     })
 
+
+    // delete room
+    app.delete('/rooms/:id', async (req, res) => {
+      const id = req.params.id
+      const query = { _id: new ObjectId(id) }
+      const result = await roomsCollection.deleteOne(query)
+      res.send(result)
+    })
+
+    // Update A room
+    app.put('/rooms/:id', verifyJWT, async (req, res) => {
+      const room = req.body
+      console.log(room)
+
+      const filter = { _id: new ObjectId(req.params.id) }
+      const options = { upsert: true }
+      const updateDoc = {
+        $set: room,
+      }
+      const result = await roomsCollection.updateOne(filter, updateDoc, options)
+      res.send(result)
+    })
+
+
+    // Get  room by host email
+    app.get('/rooms/:email', async (req, res) => {
+      const email = req.params.email
+      const query = { 'host.email': email }
+      const result = await roomsCollection.find(query).toArray()
+      res.send(result)
+    })
+
     // get featured rooms
 
-    app.get('/rooms/featured', async (req, res) => {
+    app.get('/featured', async (req, res) => {
       const query = {
         type: 'Featured'
       };
@@ -245,7 +278,7 @@ async function run() {
 
     // get featured cars
 
-    app.get('/cars/featured', async (req, res) => {
+    app.get('/featuredCar', async (req, res) => {
       const query = {
         type: 'Featured'
       };
@@ -306,7 +339,7 @@ async function run() {
 
 
     // // search rooms
-   
+
 
     app.get("/rooms/search", async (req, res) => {
       const query = req.query;
@@ -356,31 +389,64 @@ async function run() {
       res.send(result);
     })
 
-//  Wish List API
 
-app.get('/wishList', async (req, res) => {
-  const email = req.query.email
+    
+    // delete car
+    app.delete('/cars/:id', async (req, res) => {
+      const id = req.params.id
+      const query = { _id: new ObjectId(id) }
+      const result = await carsCollection.deleteOne(query)
+      res.send(result)
+    })
 
-  if (!email) {
-    res.send([])
-  }
-  const query = { email: email }
-  const result = await wishListCollection.find(query).toArray()
-  res.send(result)
-})
+    // Update A car
+    app.put('/cars/:id', verifyJWT, async (req, res) => {
+      const car = req.body
+      console.log(car)
 
-app.delete('/wishList/:id', async (req, res) => {
-  const id = req.params.id;
-  const query = { _id: new ObjectId(id) };
-  const result = await wishListCollection.deleteOne(query);
-  res.send(result);
-})
+      const filter = { _id: new ObjectId(req.params.id) }
+      const options = { upsert: true }
+      const updateDoc = {
+        $set: car,
+      }
+      const result = await carsCollection.updateOne(filter, updateDoc, options)
+      res.send(result)
+    })
 
-app.post('/wishList', async (req, res) => {
-  const wishList = req.body;
-  const result = await wishListCollection.insertOne(wishList);
-  res.send(result);
-})
+
+    // Get  room by host email
+    app.get('/cars/:email', async (req, res) => {
+      const email = req.params.email
+      const query = { 'host.email': email }
+      const result = await carsCollection.find(query).toArray()
+      res.send(result)
+    })
+
+    //  Wish List API
+
+    app.get('/wishList', async (req, res) => {
+      const email = req.query.email
+
+      if (!email) {
+        res.send([])
+      }
+      const query = { email: email }
+      const result = await wishListCollection.find(query).toArray()
+      res.send(result)
+    })
+
+    app.delete('/wishList/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await wishListCollection.deleteOne(query);
+      res.send(result);
+    })
+
+    app.post('/wishList', async (req, res) => {
+      const wishList = req.body;
+      const result = await wishListCollection.insertOne(wishList);
+      res.send(result);
+    })
 
     // Car Related APIS
 
@@ -479,25 +545,70 @@ app.post('/wishList', async (req, res) => {
       res.send(result)
     })
 
-  //  get featured blogs
+    //  get featured blogs
 
-  app.get('/blogs/featured', async (req, res) => {
-    const query = {
-      type: 'Featured'
-    };
-    const result = await blogsCollection.find(query).toArray();
-    res.send(result);
+    app.get('/featuredBlog', async (req, res) => {
+      const query = {
+        type: 'Featured'
+      };
+      const result = await blogsCollection.find(query).toArray();
+      res.send(result);
 
-  });
+    });
 
-  // Get blog Details 
+    // Get blog Details 
 
-  app.get('/blog/:id', async (req, res) => {
-    const id = req.params.id
-    const query = { _id: new ObjectId(id) }
-    const result = await blogsCollection.findOne(query)
+    app.get('/blog/:id', async (req, res) => {
+      const id = req.params.id
+      const query = { _id: new ObjectId(id) }
+      const result = await blogsCollection.findOne(query)
+      res.send(result)
+    })
+
+   // Get  blog by host email
+   app.get('/blogs/:email', async (req, res) => {
+    const email = req.params.email
+    const query = { 'host.email': email }
+    const result = await blogsCollection.find(query).toArray()
     res.send(result)
   })
+
+   // delete blog
+   app.delete('/blogs/:id', async (req, res) => {
+    const id = req.params.id
+    const query = { _id: new ObjectId(id) }
+    const result = await blogsCollection.deleteOne(query)
+    res.send(result)
+  })
+
+  // Update A blog
+  app.put('/blogs/:id', verifyJWT, async (req, res) => {
+    const blog = req.body
+    console.log(blog)
+
+    const filter = { _id: new ObjectId(req.params.id) }
+    const options = { upsert: true }
+    const updateDoc = {
+      $set: blog,
+    }
+    const result = await blogsCollection.updateOne(filter, updateDoc, options)
+    res.send(result)
+  })
+    // review related api
+
+    // Save a  review in database
+    app.post('/reviews', async (req, res) => {
+      const review = req.body
+      console.log(review)
+      const result = await reviewsCollection.insertOne(review)
+      res.send(result)
+    })
+
+    // get all reviews
+    app.get('/reviews', async (req, res) => {
+      const result = await reviewsCollection.find().toArray()
+      res.send(result)
+    })
 
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");

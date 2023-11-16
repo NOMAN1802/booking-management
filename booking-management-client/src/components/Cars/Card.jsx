@@ -23,7 +23,7 @@ const Card = ({ car }) => {
     
     const carDetails = {
       location: car?.location,
-      title: car?.destination,
+      title: car?.title,
       image: car?.image,
       price: car?.price,
       email: user?.email

@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
+import FeedBack from '../FeedBack/FeedBack';
 
 
 const BlogInfo = ({blogData}) => {
     return (
-        <>
+      
             <div className='col-span-12 flex flex-col gap-8'>
         <div className='flex flex-col gap-2'>
           <div
@@ -38,7 +39,7 @@ const BlogInfo = ({blogData}) => {
               '
           >
             
-            <div className='border border-rose-500 p-4 w-48 gap-2 flex items-center justify-center rounded hover:scale-110'> Doors:{blogData?.title}</div>
+            <div className='border border-rose-500 p-4 w-48 gap-2 flex items-center justify-center rounded hover:scale-110'> Author:{blogData?.author}</div>
             <div className='border border-rose-500 p-4 w-48 gap-2 flex items-center justify-center rounded hover:scale-110'> Type:{blogData?.type}</div>
             <div className='border border-rose-500 p-4 w-48 gap-2 flex items-center justify-center rounded hover:scale-110'> Date:{blogData.date ? new Date(blogData?.date).toLocaleString('default', { month: 'short', day: 'numeric' }) : ''}</div>
           </div>
@@ -52,9 +53,15 @@ const BlogInfo = ({blogData}) => {
         >
           {blogData?.blog}
         </div>
+        <hr className='mt-4'/>
+
+        <div className='my-4'>
+        <p className='font-semibold text-2xl my-2'>Feed Back</p> 
+          <FeedBack/>
+        </div>
       </div>
-      <hr className='mt-4'/>
-        </>
+       
+        
     );
 };
 

@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import { FaWifi,  FaTv, FaCar, FaPaw } from 'react-icons/fa';
+import FeedBack from '../FeedBack/FeedBack';
 
 const RoomInfo = ({ roomData }) => {
   return (
@@ -76,6 +77,11 @@ const RoomInfo = ({ roomData }) => {
             )}
           </div>
         ))}
+      </div>
+      <hr />
+        <div className='my-4'>
+        <p className='font-semibold text-2xl my-2'>Feed Back</p> 
+          <FeedBack/>
       </div>
     </div>
   );

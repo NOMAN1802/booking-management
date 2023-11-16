@@ -81,50 +81,7 @@ const AddGuest = ({
           </button>
         </div>
       </div>
-      {/* <hr />
-      <div className="flex justify-between items-center">
-        <div>
-          <p className="pt-4 ">Infants</p>
-          <p className={` pb-7`}>Under 2</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => handleDecrement("Infants")}
-            className="border inline px-3 py-2 rounded-full"
-          >
-            -
-          </button>
-          <p>{guestCount?.Infants}</p>
-          <button
-            onClick={() => handleIncrement("Infants")}
-            className="border inline px-3 py-2 rounded-full"
-          >
-            +
-          </button>
-        </div>
-      </div>
-      <hr />
-      <div className="flex justify-between items-center">
-        <div>
-          <p className="pt-4 ">Pets</p>
-          <p className={` pb-7 underline`}>Bringing a service animal?</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => handleDecrement("Pets")}
-            className="border inline px-3 py-2 rounded-full"
-          >
-            -
-          </button>
-          <p>{guestCount?.Pets}</p>
-          <button
-            onClick={() => handleIncrement("Pets")}
-            className="border inline px-3 py-2 rounded-full"
-          >
-            +
-          </button>
-        </div>
-      </div>
+ 
       <hr /> */}
     </div>
   );

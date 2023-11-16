@@ -594,6 +594,36 @@ async function run() {
     const result = await blogsCollection.updateOne(filter, updateDoc, options)
     res.send(result)
   })
+
+
+  //Car status change  api
+
+  app.patch('/blogs/approved/:id', async (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+    const filter = { _id: new ObjectId(id) };
+    const updateDoc = {
+      $set: {
+        status: 'approved'
+      },
+    };
+    const result = await blogsCollection.updateOne(filter, updateDoc);
+    res.send(result);
+
+  })
+
+  app.patch('/blogs/denied/:id', async (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+    const filter = { _id: new ObjectId(id) };
+    const updateDoc = {
+      $set: {
+        status: 'denied'
+      },
+    };
+    const result = await blogsCollection.updateOne(filter, updateDoc);
+    res.send(result);
+  })
     // review related api
 
     // Save a  review in database

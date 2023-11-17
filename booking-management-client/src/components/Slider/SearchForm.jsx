@@ -3,33 +3,22 @@ import React, { useEffect, useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import Destination from "../SearchToggleComponent/Destination";
 import CheckTime from "../SearchToggleComponent/CheckTime";
-import AddGuest from "../SearchToggleComponent/AddGuest";
 import { formateDate } from "../../utils/dateConvert";
 
 const SearchForm = ({ setRooms, setIsOpen }) => {
   const [activeSearch, setActiveSearchText] = useState(false);
-  const [totalGuests, setTotalGuest] = useState(null);
   const [checkInDate, setCheckInDate] = useState(null);
   const [checkOutDate, setCheckOutDate] = useState(null);
-  const [guestCount, setGuestCount] = useState({
-    Adults: 0,
-    Children: 0,
-    Infants: 0,
-    Pets: 0,
-  });
-
+ 
   const props = { checkInDate, setCheckInDate, checkOutDate, setCheckOutDate };
   const [find, setFind] = useState(null);
   const lists = [
     {
-      title: "Stays",
+      title: "Rooms",
     },
     {
-      title: "Experience",
-    },
-    {
-      title: "Online Experience",
-    },
+      title: "Cars",
+    }
   ];
 
   const [active, setActive] = useState(null);
@@ -42,16 +31,15 @@ const SearchForm = ({ setRooms, setIsOpen }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
-    const destination = form.destination.value;
+    const location = form.location.value;
     const checkIn = checkInDate ? checkInDate.toISOString() : "";
     const checkOut = checkOutDate ? checkOutDate.toISOString() : "";
-    const guestTotal = totalGuests;
-
+    
     const searchQuery = {
-      location: destination,
+      location: location,
       checkIn,
       checkOut,
-      guest: guestTotal,
+      // guest: guestTotal,
     };
     const queryString = Object.keys(searchQuery)
       .map(
@@ -61,7 +49,7 @@ const SearchForm = ({ setRooms, setIsOpen }) => {
       .join("&");
 
     fetch(
-      `http://localhost:5000/rooms/search?${queryString}`
+      `http://localhost:5000/roomSearch?${queryString}`
     )
       .then((response) => {
         if (!response.ok) {
@@ -101,24 +89,24 @@ const SearchForm = ({ setRooms, setIsOpen }) => {
           onSubmit={handleSubmit}
         >
           <div
-            onClick={() => handleToggle("destination")}
+            onClick={() => handleToggle("location")}
             className={` px-4 py-3 ${
-              active == "destination"
+              active == "location"
                 ? "bg-white shadow-2xl  "
                 : "hover:bg-[#EBEBEB]"
             }   rounded-3xl col-span-4 `}
           >
             <div className="flex  gap-10 items-center  ">
               <div>
-                <p className="text-[13px] font-bold">Where</p>
+                <p className="text-[13px] font-bold">Location</p>
 
                 <input
                   className={` placeholder-gray-400 outline-none bg-transparent bg-[#EBEBEB] text-sm  ${
-                    active == "destination" && "bg-white "
+                    active == "location" && "bg-white "
                   }`}
-                  // className="outline-none bg-transparent w-full text-gray-600 placeholder-gray-400"
-                  name="destination"
-                  placeholder="Search destinations"
+                  
+                  name="location"
+                  placeholder="Search locations"
                 />
               </div>
             </div>
@@ -177,29 +165,7 @@ const SearchForm = ({ setRooms, setIsOpen }) => {
                 : "hover:bg-[#EBEBEB]"
             }   rounded-3xl flex gap-5 items-center col-span-3 `}
           >
-            <div className="flex  gap-10 items-center  ">
-              <div>
-                <p className="text-[13px] font-bold">Who</p>
-                <p className="text-gray-500 text-sm">
-                  {totalGuests ? (
-                    <p className="font-semibold text-black text-sm">
-                      {totalGuests} guests
-                    </p>
-                  ) : (
-                    "AddGuest"
-                  )}
-                </p>
-              </div>
-              {/* {totalGuests && (
-              <button
-                onClick={() => setTotalGuest('')}
-                style={{ borderRadius: "50%" }}
-                className="bg-[#DDDDDD]   text-sm py-1 px-2 hover:bg-gray-200"
-              >
-                X
-              </button>
-            )} */}
-            </div>
+            
             <div className=" bg-[#F62E56]  font-semibold rounded-full px-2 py-1 text-white flex  justify-between  ">
               <div>
                 <BiSearch size={26}></BiSearch>
@@ -212,17 +178,10 @@ const SearchForm = ({ setRooms, setIsOpen }) => {
         </form>
       </div>
       <div className="z-50">
-        {find == "destination" && <Destination></Destination>}
+        {find == "location" && <Destination></Destination>}
         {find == "checkIn" && <CheckTime props={props} />}
         {find == "checkOut" && <CheckTime props={props} />}
-        {find == "guest" && (
-          <AddGuest
-            totalGuests={totalGuests}
-            setTotalGuest={setTotalGuest}
-            guestCount={guestCount}
-            setGuestCount={setGuestCount}
-          ></AddGuest>
-        )}
+        
       </div>
     </>
   );

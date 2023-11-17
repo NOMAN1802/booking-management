@@ -82,7 +82,7 @@ const AddGuest = ({
         </div>
       </div>
  
-      <hr /> */}
+      <hr /> 
     </div>
   );
 };

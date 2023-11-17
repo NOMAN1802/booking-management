@@ -107,7 +107,7 @@ const Profile = () => {
            heading={"Profile"}
            >
            </SectionTitle>
-            <div className='w-full min-h-[100vh] bg-gray-50 rounded shadow-xl'>
+            <div className='w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50'>
             
             <form className=" w-full p-8 space-y-12" onSubmit={handleSubmit(onSubmit)}>
                 <h1 className='text-2xl font-normal'>Your Profile</h1>

@@ -3,21 +3,21 @@ import { MdOutlineLocationCity } from 'react-icons/md'
 import {  FaHotel, FaRegCalendarAlt } from 'react-icons/fa'
 import { PiUsersThreeLight } from 'react-icons/pi'
 import { AiOutlineCar } from 'react-icons/ai'
-const Search = ({setIsOpen}) => {
+const Search = ({setIsRoomOpen,setIsCarOpen}) => {
     
   return (
     <div >
         <p className='text-5xl px- md:text-white text-center font-semibold my-12 sm:text-gray-500'>Enjoy a great ride with ibooking</p>
         <div className='md:flex md:flex-row md:my-2 md:gap-2 md:cursor-pointer sm:hidden'>
             
-                <p className='bg-slate-500 text-white py-2 px-6 text-sm font-light rounded flex flex-row gap-1'> <FaHotel size={18}/> Rooms</p>
+                <p onClick={() => setIsRoomOpen(true)} className='bg-slate-500 text-white py-2 px-6 text-sm font-light rounded flex flex-row gap-1'> <FaHotel size={18}/> Rooms</p>
               
-                <p className='bg-slate-500 text-white py-2 px-6 text-sm font-light rounded flex flex-row gap-1'> <AiOutlineCar size={18}/> Cars</p>
+                <p onClick={() => setIsCarOpen(true)} className='bg-slate-500 text-white py-2 px-6 text-sm font-light rounded flex flex-row gap-1'> <AiOutlineCar size={18}/> Cars</p>
                
             
         </div>
         
-       <div onClick={() => setIsOpen(true)} className='md:flex md:flex-row sm:flex-col'>
+       <div  className='md:flex md:flex-row sm:flex-col'>
        <div className='border-[2px] w-full md:w-auto py-4  shadow-sm hover:shadow-md bg-white cursor-pointer'>
       <div className='flex flex-row items-center justify-between'>
         <div className='text-lg font-normal px-6 flex  items-center justify-center gap-2 '> <MdOutlineLocationCity size={24}/> Location</div>

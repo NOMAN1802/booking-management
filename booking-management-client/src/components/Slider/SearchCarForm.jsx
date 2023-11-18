@@ -1,33 +1,22 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import Destination from "../SearchToggleComponent/Destination";
 import CheckTime from "../SearchToggleComponent/CheckTime";
 import { formateDate } from "../../utils/dateConvert";
-import { useNavigate } from "react-router-dom";
 import Loader from "../Shared/Loader";
-import MatchRoom from "./MatchRoom";
+import MatchCar from "./MatchCar";
 import axios from "axios";
 
-const SearchForm = ({ setIsRoomOpen }) => {
+const SearchCarForm = ({ setIsCarOpen }) => {
   const [activeSearch, setActiveSearchText] = useState(false);
-  const navigate = useNavigate();
   const [checkInDate, setCheckInDate] = useState(null);
   const [checkOutDate, setCheckOutDate] = useState(null);
   const props = { checkInDate, setCheckInDate, checkOutDate, setCheckOutDate };
   const [find, setFind] = useState(null);
   const [loading, setLoading] = useState(false)
-  const [searchRooms, setSearchRooms] = useState([])
-  console.log("searchRooms", searchRooms);
+  const [searchCars, setSearchCars] = useState([])
 
-  const lists = [
-    {
-      title: "Rooms",
-    },
-    {
-      title: "Cars",
-    },
-  ];
   const [active, setActive] = useState(null);
 
   const handleToggle = (e, find) => {
@@ -58,30 +47,23 @@ const SearchForm = ({ setIsRoomOpen }) => {
     try {
       setLoading(true);
   
-      const response = await axios.get(`http://localhost:5000/roomSearch?${queryString}`);
+      const response = await axios.get(`http://localhost:5000/carSearch?${queryString}`);
   
       if (response.data.length === 0) {
-      // if (!response.data || (Array.isArray(response.data) && response.data.length === 0)) {
+      
         console.log('No results found or data format is incorrect');
       } else {
         console.log('else', response.data);
-        setSearchRooms(response.data);
+        setSearchCars(response.data);
       }
   
       setLoading(false);
-      // setIsRoomOpen(false);
-      // console.log(searchRooms);
-      // navigate('/singleSearch');
+      
     } catch (error) {
       console.error('Error fetching filtered data:', error);
       setLoading(false);
     }
   };
-
-  // useEffect(() => {
-  //   console.log("searchResults changed:", searchRooms);
-    
-  // }, [searchRooms]);
 
 
   if (loading) {
@@ -89,24 +71,12 @@ const SearchForm = ({ setIsRoomOpen }) => {
   }
   return (
     <>
-      {searchRooms.length === 0 ? null : <MatchRoom searchRooms={searchRooms} setIsRoomOpen={setIsRoomOpen}/>}
+      {searchCars.length === 0 ? null : <MatchCar searchCars={searchCars} setIsCarOpen={setIsCarOpen}/>}
       <div className="cursor-pointer pt-7  z-10">
-        {/* <ul
-          onClick={() => setIsOpen(false)}
-          className="flex gap-10 justify-center "
-        >
-          {lists.map((list, index) => (
-            <li
-              className="text-[16px]  text-gray-900 hover:text-gray-400 hover:border-b-2"
-              key={index}
-            >
-              {list.title}
-            </li>
-          ))}
-        </ul> */}
+       
         <form
           onSubmit={handleSubmit}
-          // onClick={() => setActiveSearchText(true)}
+          
           className={` rounded- w-[750px]  border mt-10 grid grid-cols-8  bg-gray-100 z-20 `}
         >
             <div
@@ -177,12 +147,6 @@ const SearchForm = ({ setIsRoomOpen }) => {
                 <BiSearch size={24}></BiSearch>
                 <button type="submit">Search</button>
               </div>
-          {/* {
-            searchRooms && searchRooms?.map((index, result) => {
-              console.log(result);
-              return <SearchResult key={index} result={result} />
-            })
-          } */}
 
 
         </form>
@@ -196,4 +160,4 @@ const SearchForm = ({ setIsRoomOpen }) => {
   );
 };
 
-export default SearchForm;
+export default SearchCarForm;

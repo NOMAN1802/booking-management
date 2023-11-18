@@ -30,6 +30,7 @@ import Rooms from "../components/Rooms/Rooms";
 import Blog from "../components/Blogs/Blog";
 import { getBlog } from "../api/blogs";
 import BlogDetails from "../Pages/BlogDetails/BlogDetails";
+import MatchRoom from "../components/Slider/MatchRoom";
 
 
 
@@ -75,7 +76,11 @@ import BlogDetails from "../Pages/BlogDetails/BlogDetails";
                     <BlogDetails/> 
                 </PrivateRoute>),
                 loader:  ({params}) => getBlog(params.id)   
-            }
+            },
+            // {
+            //     path:'singleSearch',
+            //     element:<MatchRoom/>
+            // }
         ]
     },
     {

@@ -65,9 +65,9 @@ const NavBar = () => {
               Blog
           </NavLink>
           </li>
-          <Link to='/other-pages' onClick={() => setIsOpen(false)}>
+          <Link to='/singleSearch' onClick={() => setIsOpen(false)}>
             <li className='hover:text-pink-400 transition border-b-2 border-white hover:border-pink-400 cursor-pointer mb-2 lg:mb-0 text-base font-medium'>
-              Other Pages
+              Single Search
             </li>
           </Link>
           <Link to='/contact' onClick={() => setIsOpen(false)}>

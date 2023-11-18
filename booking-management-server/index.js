@@ -330,27 +330,7 @@ async function run() {
     })
 
 
-    // // search rooms
-
-
-    // app.get("/rooms/search", async (req, res) => {
-    //   const query = req.query;
-    //   console.log(query);
-    //   const filter = {
-    //     location: query?.location,
-    //     availableCheckInMonth: query?.checkIn.split(" ")[0],
-    //     availableCheckInDate: parseFloat(query?.checkIn.split(" ")[1]),
-    //     availableCheckOutMonth: query?.checkOut.split(" ")[0],
-    //     availableCheckOutDate: parseFloat(query?.checkOut.split(" ")[1]),
-    //     guest: parseFloat(query?.guest),
-    //   };
-    //   console.log(filter);
-    //   if (query) {
-    //     const result = await roomsCollection.find(filter).toArray();
-    //     res.send(result);
-    //   }
-    // });
-
+     // search rooms
 
     app.get("/roomSearch", async (req, res) => {
       const query = req.query;
@@ -373,6 +353,33 @@ async function run() {
         });
 
         res.send(filteredRooms);
+      } else {
+        res.status(400).send("Invalid search parameters");
+      }
+    });
+     // search cars
+
+    app.get("/carSearch", async (req, res) => {
+      const query = req.query;
+      const checkIn = new Date(query.checkIn);
+      const checkOut = new Date(query.checkOut);
+
+      if (
+        query.location &&
+        checkIn instanceof Date && !isNaN(checkIn) &&
+        checkOut instanceof Date && !isNaN(checkOut)
+      ) {
+        const allCars = await carsCollection.find().toArray();
+
+        const filteredCars = allCars.filter((car) => {
+          const validLocation = car.location === query.location;
+          const validCheckIn = new Date(car.from) <= checkIn;
+          const validCheckOut = new Date(car.to) >= checkOut;
+
+          return validLocation && validCheckIn && validCheckOut;
+        });
+
+        res.send(filteredCars);
       } else {
         res.status(400).send("Invalid search parameters");
       }

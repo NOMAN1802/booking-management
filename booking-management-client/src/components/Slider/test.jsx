@@ -372,3 +372,58 @@
             //     </button>
             //   </form>
             // </div>
+
+            // Search result
+
+              // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const form = e.target;
+  //   const location = form.location.value;
+  //   const checkIn = checkInDate ? checkInDate.toISOString() : "";
+  //   const checkOut = checkOutDate ? checkOutDate.toISOString() : "";
+
+  //   const searchQuery = {
+  //     location: location,
+  //     checkIn,
+  //     checkOut,
+  //   };
+  //   const queryString = Object.keys(searchQuery)
+  //     .map(
+  //       (key) =>
+  //         `${encodeURIComponent(key)}=${encodeURIComponent(searchQuery[key])}`
+  //     )
+  //     .join("&");
+  //     // setSearchResults('hello');
+  //     console.log('2');
+  //   try {
+  //     setLoading(true);
+  //     const response = await fetch(`http://localhost:5000/roomSearch?${queryString}`);
+
+  //     if (!response.ok) {
+  //       throw new Error("Network response was not ok");
+  //     }
+
+  //     const data = await response.json();
+  //     // console.log(data.length);
+  //     console.log('3');
+
+  //     // Handle empty results
+  //     if (data.length === 0) {
+  //       console.log("No results found");
+  //     } else {
+  //       console.log(data);
+  //       setSearchResults(data);
+
+  //     }
+  //     // setSearchResults('hello');
+
+  //     setLoading(false);
+  //     setIsRoomOpen(false);
+  //     // navigate('/singleSearch');
+  //   } catch (error) {
+  //     console.error("Error fetching filtered data:", error);
+  //     setLoading(false); 
+  //   }
+  // };
+
+  

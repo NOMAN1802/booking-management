@@ -2,7 +2,7 @@
 import React from 'react'
 import Heading from '../Heading/Heading'
 
-const Header = ({blogData}) => {
+const Header = ({blogData,refetch}) => {
   return (
     <>
       <Heading

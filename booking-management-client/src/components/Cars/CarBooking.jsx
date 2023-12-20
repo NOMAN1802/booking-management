@@ -3,15 +3,17 @@ import React, { useContext, useState } from 'react'
 import Calendar from './Calender';
 import Button from '../Button/Button'
 import { useNavigate } from 'react-router-dom';
-import { addBooking, updateCarStatus } from '../../api/bookings';
-import Swal from 'sweetalert2';
 import BookingModal from '../Modal/BookingModal';
 import { AuthContext } from '../../providers/AuthProvider';
+import useAdmin from '../../hooks/useAdmin';
+import useHost from '../../hooks/useHost';
 
 const CarBooking = ({carData}) => {
 
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const [isAdmin] = useAdmin();
+  const [isHost] = useHost()
   const closeModal = () => {
     setIsOpen(false);
   };
@@ -34,14 +36,16 @@ const CarBooking = ({carData}) => {
     // Apply the coupon code discount
     const discountedPrice = applyCouponCode(totalPrice, couponCode);
 
+    // Add 5% VAT to the discounted price
+    const priceWithVAT = addVAT(discountedPrice);
+
     setBookingInfo({
       ...bookingInfo,
-      price: discountedPrice,
+      price: priceWithVAT,
       to: selectedRange.endDate,
       from: selectedRange.startDate,
     });
 
-  
     setValue({
       startDate: selectedRange.startDate,
       endDate: selectedRange.endDate,
@@ -56,6 +60,13 @@ const CarBooking = ({carData}) => {
     }
     return originalPrice; 
   };
+
+  const addVAT = (price) => {
+    // Add 5% VAT to the price
+    const vat = price * 0.05;
+    return price + vat;
+  };
+
   // Price Calculation
   const totalPrice =
     (value.endDate - value.startDate) / (1000 * 60 * 60 * 24) * carData?.price;
@@ -75,46 +86,19 @@ const CarBooking = ({carData}) => {
   const handleApplyCoupon = () => {
     // Call your applyCouponCode function to calculate the discounted price
     const discountedPrice = applyCouponCode(totalPrice, couponCode);
-  
-    // Update the bookingInfo with the discounted price
+
+    // Add 5% VAT to the discounted price
+    // const priceWithVAT = addVAT(discountedPrice);
+    const priceWithVATInCents = Math.round(addVAT(discountedPrice) * 100);
+    
+    // Update the bookingInfo with the discounted price and VAT
     setBookingInfo({
       ...bookingInfo,
-      price: discountedPrice,
+      price: priceWithVATInCents
+      ,
     });
   };
-  
-
-  // const modalHandler = () => {
-  //   addBooking(bookingInfo)
-  //     .then((data) => {
-  //       console.log(data);
-  //       updateCarStatus(carData?._id, true)
-  //         .then((data) => {
-  //           console.log(data);
-
-  //           // Update the bookingInfo with the coupon-discounted price
-  //           const updatedBookingInfo = {
-  //             ...bookingInfo,
-  //             price: bookingInfo.price * 0.9,
-  //           };
-
-  //           setBookingInfo(updatedBookingInfo);
-
-  //           Swal.fire({
-  //             position: 'top-end',
-  //             icon: 'success',
-  //             title: 'Car Booked Successfully',
-  //             showConfirmButton: false,
-  //             timer: 1500,
-  //           });
-  //           console.log(bookingInfo);
-  //           navigate('/dashboard/myOrders');
-  //           closeModal();
-  //         })
-  //         .catch((err) => console.log(err));
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
+ 
   return (
     <div className='bg-white rounded border-[1px] border-neutral-200 overflow-hidden'>
       <div className='flex flex-row items-center gap-2 p-4 text-white bg-gray-400'>
@@ -141,17 +125,25 @@ const CarBooking = ({carData}) => {
       <div className='p-4'>
         <Button
           onClick={() => setIsOpen(true)}
-          disabled={carData?.host?.email === user?.email || carData?.booked}
+          disabled={carData.host.email === user.email || carData.booked || isAdmin || isHost}
           label='Book Now'
         />
       </div>
       <hr />
-      <div className='p-4 flex flex-row items-center justify-between font-semibold text-lg'>
-        <div>Total</div>
+      <div className='p-4 flex flex-row items-center justify-between font-semibold text-sm'>
+        <div>Subtotal</div>
         <div>${bookingInfo.price.toFixed(2)}</div>
       </div>
-     
-
+      <hr/>
+      <div className='p-4 flex flex-row items-center justify-between font-semibold text-sm'>
+        <div>VAT (5%)</div>
+        <div>${(bookingInfo.price * 0.05).toFixed(2)}</div>
+      </div>
+      <hr />
+      <div className='p-4 flex flex-row items-center justify-between font-semibold text-lg'>
+        <div>Total</div>
+        <div>${(bookingInfo.price + bookingInfo.price * 0.05).toFixed(2)}</div>
+      </div>
       <BookingModal
         // modalHandler={modalHandler}
         bookingInfo={bookingInfo}

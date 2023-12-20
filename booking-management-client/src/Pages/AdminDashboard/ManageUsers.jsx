@@ -5,6 +5,7 @@ import { FaUser, FaUserShield } from 'react-icons/fa';
 import { MdAdminPanelSettings } from 'react-icons/md';
 import Container from "../../components/Container/Container"
 import Swal from 'sweetalert2';
+import SectionTitle from '../../components/SectionTitle/SectionTitle';
 
 const ManageUsers = () => {
 
@@ -13,7 +14,7 @@ const ManageUsers = () => {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/users`)
         return res.json()
     })
-    
+
     const handleMakeAdmin = user => {
         fetch(`${import.meta.env.VITE_API_URL}/users/admin/${user._id}`, {
             method: 'PATCH'
@@ -56,7 +57,11 @@ const ManageUsers = () => {
     return (
         <Container>
 
-            <h1 className='text-center text-3xl text-gray-700 my-8 font-semibold'>All Users: {users.length}</h1>
+            <SectionTitle
+                subHeading={"Manage role of user"}
+                heading={"Manage Users"}
+            >
+            </SectionTitle>
             <div className='rounded shadow-sm bg-gray-50 w-full sm:overflow-x-auto'>
 
                 <div className="overflow-x-auto">

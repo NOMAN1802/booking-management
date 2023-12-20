@@ -121,10 +121,7 @@ const CheckoutForm = ({closeModal,bookingInfo}) => {
         });
     }
   })
-//   .catch(error => {
-//     console.error('Error making booking:', error);
-//     // Handle error making booking if needed
-//   });
+
       }
     }
   

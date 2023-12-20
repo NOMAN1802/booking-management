@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 // LoginModal.js
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import Modal from './Modal';
@@ -16,22 +16,19 @@ import { getAuth } from 'firebase/auth';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const LoginModal = ({ isOpen, setIsOpen }) => {
+  
   const [loading, setLoading] = useState(false);
-  const [viewPassword, setViewPassword] = useState(false);
   const [isSignUpModalOpen, setSignUpModalOpen] = useState(false);
-  const { signIn,googleSignIn } = useContext(AuthContext);
+  const [viewPassword, setViewPassword] = useState(false);
+  const { signIn, googleSignIn, resetPassword } = useContext(AuthContext);
   const auth = getAuth(app);
   const navigate = useNavigate();
   const location = useLocation();
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   const from = location?.state?.pathname || "/";
+  const emailRef = useRef();
   
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+ 
 
  //   with google signIn
  const handleGoogleSignIn = () => {
@@ -51,7 +48,7 @@ const LoginModal = ({ isOpen, setIsOpen }) => {
        .then(res => res.json())
        .then(() =>{
           
-            navigate('/');
+        navigate(from, {replace: true});
          
        })
 
@@ -59,22 +56,14 @@ const LoginModal = ({ isOpen, setIsOpen }) => {
   })
 }
 
-const onSubmit = (data) => {
-  setLoading(true);
-  const { email, password } = data || {};
-
-  // Validate email format
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    // Display an error message or prevent form submission
-    console.log('Invalid email format');
-    return;
-  }
-
+const handleSubmit = event => {
+  event.preventDefault();
+  const email = event.target.email.value;
+  const password = event.target.password.value;
+  console.log(email, password);
   signIn(email, password)
-    .then((result) => {
-      const user = result.user;
-      console.log(user);
+    .then(result => {
+      console.log(result.user)
       Swal.fire({
         position: 'top-end',
         icon: 'success',
@@ -83,19 +72,57 @@ const onSubmit = (data) => {
         timer: 1500,
       });
 
-      reset();
-      navigate(from, { replace: true });
+      navigate(from, {replace: true});
+
+    }).catch((err)=>{
+      setLoading(false)
+      Swal.fire({
+      position: 'top-end',
+      icon: 'error',
+      title: 'Something went wrong',
+      showConfirmButton: false,
+      timer: 1500,
+       });
     })
-    .catch((error) => {
-      console.error('Sign-in error:', error);
-      // Handle sign-in error, display error message, etc.
+}
+
+
+// handle password reset
+
+const handleReset = () => {
+  const email = emailRef.current.value;
+
+  resetPassword(email)
+    .then(() => {
+      setLoading(false);
+
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Please check your email to reset password',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    })
+    .catch((err) => {
+      setLoading(false);
+
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'Something went wrong',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      console.error(err.message);
     });
 };
 
 
-  const handleViewPassword = () => {
-    setViewPassword(!viewPassword);
-  };
+const handleViewPassword = () => {
+  setViewPassword(!viewPassword);
+};
   const openSignUpModal = () => {
     setSignUpModalOpen(true);
     
@@ -135,16 +162,22 @@ const onSubmit = (data) => {
         </button>
 
         <div className="w-full my-4">
-          <form className="space-y-3 w-full" onSubmit={handleSubmit(onSubmit)}>
+          <form className="space-y-3 w-full"
+          //  onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit}
+           >
             <div className="flex flex-col items-start relative">
               <label className='text-sm' htmlFor="email">Email</label>
               <div className="relative">
                 <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 <input
-                  type="email"
-                  id="email"
-                  className="w-96 rounded-md pl-8"
-                  {...register('email')}
+                 ref={emailRef}
+                 type='email'
+                 id='email'
+                 name='email'
+                 className="w-96 rounded-md pl-8"
+                 
+                 required
                 />
               </div>
             </div>
@@ -152,16 +185,15 @@ const onSubmit = (data) => {
             <div className="flex flex-col items-start relative">
               <div className='flex items-center space-x-52'>
                 <label className='text-sm' htmlFor="password">Password</label>
-                <span className="text-gray-500 text-sm cursor-pointer hover:underline">
-                  Forgot Password?
-                </span>
+                
               </div>
               <div className="relative">
                 <input
                   type={viewPassword ? 'text' : 'password'}
                   id="password"
+                  name='password'
                   className="w-96 rounded-md pl-10 pr-10"
-                  {...register('password')}
+                  
                 />
                 <div
                   onClick={handleViewPassword}
@@ -173,21 +205,24 @@ const onSubmit = (data) => {
               </div>
             </div>
 
-            <div className=''>
+            <div>
               <button type="submit" className='bg-gray-500 w-96 rounded-md py-3 text-white my-4'>
                 Log In
               </button>
             </div>
 
-            <p className='text-xl text-gray-600 text-center'>OR</p>
+            
+          </form>
+          <div className='space-y-1'>
+          <button onClick={handleReset} className='text-xs hover:underline hover:text-rose-500 text-gray-400'>
+            Forgot password?
+          </button>
 
-            <div className='grid grid-cols-2 gap-2'>
-              <div className='flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded cursor-pointer'
-                onClick={handleGoogleSignIn}
-              >
-                <BiLogoFacebook size={24} />
-                Facebook
-              </div>
+        </div>
+        <p className='text-xl text-gray-600 text-center'>OR</p>
+
+            <div >
+              
               <div className='flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded cursor-pointer'
                 onClick={handleGoogleSignIn}
               >
@@ -213,7 +248,6 @@ const onSubmit = (data) => {
         <SignUpModal isOpen={isSignUpModalOpen} setIsOpen={closeSignUpModal} />
       )}
             </div>
-          </form>
         </div>
       </Modal>
     </>

@@ -16,18 +16,18 @@ const Home = () => {
            <Slider></Slider>
            <Welcome/>
            <RoomCategories/>
-           <div className='bg-gray-50 my-6'>
+           <div className='my-6'>
             <FeaturedRooms/>
            </div>
            <CarCategories/>
-           <div className='bg-gray-50 my-6'>
+           <div className='my-6'>
             <FeaturedCars/>
            </div>
            <Prices/>
-           <div  className='bg-gray-50 my-6'>
+           <div  className='my-6'>
             <Testimonials/>
            </div>
-           <div  className='bg-gray-50 my-6'>
+           <div  className='my-6'>
             <FeaturedBlogs/>
            </div>
         </div>

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../providers/AuthProvider';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Button from '../../components/Button/Button';
@@ -13,6 +13,7 @@ const Profile = () => {
     const [loading, setLoading] = useState(false);
     const [uploadButtonText, setUploadButtonText] = useState('Upload Image');
     const navigate = useNavigate();
+
   
     const {
         register,
@@ -21,6 +22,24 @@ const Profile = () => {
         control,
         formState: { errors },
       } = useForm();
+
+      const password = useWatch({ control, name: 'password' });
+      const confirmPassword = useWatch({ control, name: 'confirmPassword' });
+      const [disabled, setDisabled] = useState(true);
+
+      useEffect(() => {
+        if (
+          password !== undefined &&
+          password !== '' &&
+          confirmPassword !== undefined &&
+          confirmPassword !== '' &&
+          password === confirmPassword
+        ) {
+          setDisabled(false);
+        } else {
+          setDisabled(true);
+        }
+      }, [password, confirmPassword]);
       
       const handleImageChange = image =>{
         setUploadButtonText(image.name);
@@ -255,9 +274,9 @@ const Profile = () => {
           
           <input
             type="password"
-            id="ConfirmPassword"
+            id="confirmPassword"
             className="md:w-96 sm:w-full rounded-md pl-8"
-            {...register('ConfirmPassword')}
+            {...register('confirmPassword')}
           
             
           />
@@ -266,7 +285,9 @@ const Profile = () => {
       
     </div>
     <div className='md:w-1/4 '>
-            <Button label="Save changes"/>
+            <Button
+            disabled={disabled}
+            label="Save changes"/>
 
             
           </div>

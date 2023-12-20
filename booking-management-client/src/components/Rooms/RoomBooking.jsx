@@ -5,14 +5,14 @@ import Button from '../Button/Button';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 import BookingModal from '../Modal/BookingModal';
-import Swal from 'sweetalert2';
-import { addBooking, updateStatus } from '../../api/bookings';
 import useAdmin from '../../hooks/useAdmin';
+import useHost from '../../hooks/useHost';
 
 const RoomBooking = ({ roomData }) => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isAdmin] = useAdmin();
+  const [isHost] = useHost();
   const closeModal = () => {
     setIsOpen(false);
   };
@@ -24,7 +24,7 @@ const RoomBooking = ({ roomData }) => {
     key: 'selection',
   });
 
-  const [couponCode, setCouponCode] = useState(''); 
+  const [couponCode, setCouponCode] = useState('');
 
   const handleSelect = (ranges) => {
     const selectedRange = ranges.selection;
@@ -35,14 +35,16 @@ const RoomBooking = ({ roomData }) => {
     // Apply the coupon code discount
     const discountedPrice = applyCouponCode(totalPrice, couponCode);
 
+    // Add 5% VAT to the discounted price
+    const priceWithVAT = addVAT(discountedPrice);
+
     setBookingInfo({
       ...bookingInfo,
-      price: discountedPrice,
+      price: priceWithVAT,
       to: selectedRange.endDate,
       from: selectedRange.startDate,
     });
 
-  
     setValue({
       startDate: selectedRange.startDate,
       endDate: selectedRange.endDate,
@@ -52,10 +54,15 @@ const RoomBooking = ({ roomData }) => {
 
   const applyCouponCode = (originalPrice, code) => {
     if (code === 'privateye') {
-     
       return originalPrice * 0.9;
     }
-    return originalPrice; 
+    return originalPrice;
+  };
+
+  const addVAT = (price) => {
+    // Add 5% VAT to the price
+    const vat = price * 0.05;
+    return price + vat;
   };
 
   // Price Calculation
@@ -77,46 +84,17 @@ const RoomBooking = ({ roomData }) => {
   const handleApplyCoupon = () => {
     // Call your applyCouponCode function to calculate the discounted price
     const discountedPrice = applyCouponCode(totalPrice, couponCode);
-  
-    // Update the bookingInfo with the discounted price
+
+    // Add 5% VAT to the discounted price
+    // const priceWithVAT = addVAT(discountedPrice);
+    const priceWithVATInCents = Math.round(addVAT(discountedPrice));
+
+    // Update the bookingInfo with the discounted price and VAT
     setBookingInfo({
       ...bookingInfo,
-      price: discountedPrice,
+      price: priceWithVATInCents,
     });
   };
-  
-
-  // const modalHandler = () => {
-  //   addBooking(bookingInfo)
-  //     .then((data) => {
-  //       console.log(data);
-  //       updateStatus(roomData?._id, true)
-  //         .then((data) => {
-  //           console.log(data);
-
-  //           // Update the bookingInfo with the coupon-discounted price
-  //           const updatedBookingInfo = {
-  //             ...bookingInfo,
-  //             price: bookingInfo.price * 0.9,
-  //           };
-
-  //           setBookingInfo(updatedBookingInfo);
-
-  //           Swal.fire({
-  //             position: 'top-end',
-  //             icon: 'success',
-  //             title: 'Room Booked Successfully',
-  //             showConfirmButton: false,
-  //             timer: 1500,
-  //           });
-  //           console.log(bookingInfo);
-  //           navigate('/dashboard/myOrders');
-  //           closeModal();
-  //         })
-  //         .catch((err) => console.log(err));
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
 
   return (
     <div className='bg-white rounded border-[1px] border-neutral-200 overflow-hidden'>
@@ -126,41 +104,45 @@ const RoomBooking = ({ roomData }) => {
       </div>
       <hr />
       <Calendar handleSelect={handleSelect} value={value} />
-
       <hr />
       <div className='p-4 flex gap-2'>
-  <input
-    type='text'
-    placeholder='Enter Coupon Code'
-    value={couponCode}
-    onChange={(e) => setCouponCode(e.target.value)}
-  />
-  <button className='bg-gray-400 p-4 text-white font-semibold text-center w-full'
-    onClick={handleApplyCoupon}
-     > Apply Coupon</button>
-  
-</div>
+        <input
+          type='text'
+          placeholder='Enter Coupon Code'
+          value={couponCode}
+          onChange={(e) => setCouponCode(e.target.value)}
+        />
+        <button
+          className='bg-gray-400 p-4 text-white font-semibold text-center w-full'
+          onClick={handleApplyCoupon}
+        >
+          Apply Coupon
+        </button>
+      </div>
       <hr />
       <div className='p-4'>
         <Button
           onClick={() => setIsOpen(true)}
-          disabled={roomData.host.email === user.email || roomData.booked || isAdmin}
+          disabled={roomData.host.email === user.email || roomData.booked || isAdmin || isHost}
           label='Book Now'
         />
       </div>
       <hr />
-      <div className='p-4 flex flex-row items-center justify-between font-semibold text-lg'>
-        <div>Total</div>
+      <div className='p-4 flex flex-row items-center justify-between font-semibold text-sm'>
+        <div>Subtotal</div>
         <div>${bookingInfo.price.toFixed(2)}</div>
       </div>
-     
-
-      <BookingModal
-        // modalHandler={modalHandler}
-        bookingInfo={bookingInfo}
-        isOpen={isOpen}
-        closeModal={closeModal}
-      />
+      <hr/>
+      <div className='p-4 flex flex-row items-center justify-between font-semibold text-sm'>
+        <div>VAT (5%)</div>
+        <div>${(bookingInfo.price * 0.05).toFixed(2)}</div>
+      </div>
+      <hr />
+      <div className='p-4 flex flex-row items-center justify-between font-semibold text-lg'>
+        <div>Total</div>
+        <div>${(bookingInfo.price + bookingInfo.price * 0.05).toFixed(2)}</div>
+      </div>
+      <BookingModal bookingInfo={bookingInfo} isOpen={isOpen} closeModal={closeModal} />
     </div>
   );
 };

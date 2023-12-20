@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import { AuthContext } from '../../providers/AuthProvider';
@@ -5,10 +6,12 @@ import useAdmin from '../../hooks/useAdmin';
 import useHost from '../../hooks/useHost';
 import Button from '../Button/Button';
 
-const FeedBack = () => {
+
+const FeedBack = ({ postId,refetchBlogData }) => {
   const { user } = useContext(AuthContext);
   const [isAdmin] = useAdmin();
   const [isHost] = useHost();
+  
   const [currentValue, setCurrentValue] = useState(0);
   const [hoverValue, setHoverValue] = useState(undefined);
   const [comment, setComment] = useState('');
@@ -38,8 +41,8 @@ const FeedBack = () => {
 
     try {
       // Send a POST request to your backend API
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/reviews`, {
-        method: 'POST',
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/reviewBlog/${postId}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -52,6 +55,7 @@ const FeedBack = () => {
         setCurrentValue(0);
         setHoverValue(undefined);
         setComment('');
+        refetchBlogData();
       } else {
         console.error('Error submitting feedback');
       }
@@ -82,11 +86,11 @@ const FeedBack = () => {
         className="w-2/3 h-32 px-4 py-3 rounded-md"
       />
       <div className='w-1/4'>
-      <Button type="submit" label='Comment' disabled={isAdmin || isHost || !user} />
+        <Button type="submit" label='Comment' disabled={isAdmin || isHost || !user} />
       </div>
-       
     </form>
   );
 };
 
 export default FeedBack;
+

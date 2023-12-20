@@ -1,23 +1,63 @@
 /* eslint-disable no-unused-vars */
 import React, { useContext, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import Button from './Button';
 import { AuthContext } from '../../providers/AuthProvider';
 import MenuDropdown from './MenuDropdown';
 import ServiceDropdown from './ServiceDropdown';
+import { useEffect } from 'react';
+import SearchResults from '../../Pages/SearchResults/SearchResults';
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logOut } = useContext(AuthContext);
- 
+  const [searchText, setSearchText] = useState("");
+  const [rooms, setRooms] = useState([])
+  const [cars, setCars] = useState([]);
+  const [showResult, setShowResult] = useState(false);
+  const navigate = useNavigate()
 
- 
+  useEffect(() => {
+    fetch('http://localhost:5000/rooms')
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        setRooms(data);
+      })
+  }, [])
+  useEffect(() => {
+    fetch('http://localhost:5000/cars')
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        setCars(data);
+      })
+  }, [])
+
+  const handleSearch = () => {
+    fetch(`http://localhost:5000/search/${searchText}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+
+        if (data?.rooms || data?.cars) {
+          setRooms(data.rooms || []);
+          setCars(data.cars || []);
+          setShowResult(true);
+          navigate('/searchResults');
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching search results:", error);
+      });
+  };
+
 
   return (
     <nav className='z-50'>
       <div className='lg:h-10vh flex flex-col lg:flex-row lg:justify-between lg:p-5 px-6 lg:px-20 border-b'>
         <div className='flex items-center justify-between'>
-          <h2 className='text-3xl font-bold text-black'>iBooking.</h2>
+          <Link to='/'> <h2 className='text-3xl font-bold text-black'><span className='text-gray-500'>i</span>Booking.</h2></Link>
           <button
             className='lg:hidden focus:outline-none'
             onClick={() => setIsOpen(!isOpen)}
@@ -42,39 +82,49 @@ const NavBar = () => {
           className={`${isOpen ? 'flex flex-col' : 'hidden'
             } lg:flex lg:gap-8 lg:mr-16 mt-4 lg:mt-0 text-[18px] lg:flex-row`}
         >
-         
-            <li>
-            <NavLink onClick={() => setIsOpen(false)}
-                to="/"
-                className={({ isActive }) => (isActive ? "active1" : "default")}
-                title="Home"
-              >
-                Home
-              </NavLink>
-            </li>
-         
 
-          <ServiceDropdown
-        
-      />
-           <li>
-          <NavLink to='/blog'
-            className={({ isActive }) => (isActive ? "active1" : "default")}
-            title="Home"
-           onClick={() => setIsOpen(false)}>
-              Blog
-          </NavLink>
+          <li>
+            <NavLink onClick={() => {
+              setIsOpen(false);
+              setShowResult(false); 
+            }}
+              to="/"
+              className={({ isActive }) => (isActive ? "active1" : "default")}
+              title="Home"
+            >
+              Home
+            </NavLink>
           </li>
-          <Link to='/singleSearch' onClick={() => setIsOpen(false)}>
-            <li className='hover:text-pink-400 transition border-b-2 border-white hover:border-pink-400 cursor-pointer mb-2 lg:mb-0 text-base font-medium'>
-              Single Search
-            </li>
-          </Link>
-          <Link to='/contact' onClick={() => setIsOpen(false)}>
-            <li className='hover:text-pink-400 transition border-b-2 border-white hover:border-pink-400 cursor-pointer mb-2 lg:mb-0 text-base font-medium'>
-              Contact Us
-            </li>
-          </Link>
+
+
+          <ServiceDropdown onClick={() => {
+              setIsOpen(false);
+              setShowResult(false); 
+            }}/>
+          <li>
+            <div className="flex gap-4 p-1 text-end">
+              <input
+                onChange={(e) => setSearchText(e.target.value)}
+                type="text"
+                className="p-1 w-full"
+              />{" "}
+              <button className='btn btn-sm btn-secondary' onClick={handleSearch}>Search</button>
+            </div>
+          </li>
+
+          <li>
+            <NavLink to='/blog'
+              className={({ isActive }) => (isActive ? "active1" : "default")}
+              title="Blog"
+              onClick={() => {
+                setIsOpen(false);
+                setShowResult(false); 
+              }}
+              
+              >
+              Blog
+            </NavLink>
+          </li>
         </ul>
 
         <div className='flex items-center'>
@@ -88,6 +138,15 @@ const NavBar = () => {
           )}
         </div>
       </div>
+
+
+      <>
+        {showResult && (
+          <SearchResults rooms={rooms} cars={cars} showResult={showResult} setShowResult={setShowResult}>
+
+          </SearchResults>
+        )}
+      </>
     </nav>
   );
 };

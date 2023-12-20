@@ -7,7 +7,7 @@ import { ImCross } from 'react-icons/im';
 const MatchCar = ({ searchCars, setIsCarOpen }) => {
   return (
     <div>
-      {searchCars &&
+      {searchCars && 
         searchCars?.map((result) => (
           <Transition key={result.id} show={true}>
             <Dialog

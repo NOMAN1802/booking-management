@@ -8,7 +8,7 @@ import { FaBlog, FaUsersGear } from 'react-icons/fa6'
 import { AiOutlineCar } from 'react-icons/ai'
 import { AiOutlineBars, AiOutlineHeart } from 'react-icons/ai'
 import { BsBell, BsFillHouseAddFill } from 'react-icons/bs'
-import { FaClipboardList, FaHome, FaRegCreditCard, FaRegUserCircle, FaUserAlt } from 'react-icons/fa'
+import { FaClipboardList, FaHome, FaRegCreditCard, FaRegSun, FaRegUserCircle, FaUserAlt } from 'react-icons/fa'
 import useAdmin from '../../hooks/useAdmin'
 import useHost from '../../hooks/useHost'
 const Sidebar = () => {
@@ -51,12 +51,12 @@ const Sidebar = () => {
       >
         <div>
           {/* Branding & Profile Info */}
-          <div>
+          <Link to="/">
             <div className='w-full hidden md:flex py-2 justify-center items-center bg-rose-100 mx-auto'>
               ibooking
             </div>
 
-          </div>
+          </Link>
 
           {/* Nav Items */}
           <div className='flex flex-col justify-between flex-1 mt-6'>
@@ -216,6 +216,16 @@ const Sidebar = () => {
                           >
                             <FaRegUserCircle className='w-5 h-5'></FaRegUserCircle>
                             <span className='mx-4 font-medium'>Profile</span>
+                          </NavLink>
+                          <NavLink
+                            to='/dashboard/changePassword'
+                            className={({ isActive }) =>
+                              `flex items-center px-4 py-2 mt-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${isActive ? 'bg-gray-300  text-gray-700' : 'text-gray-600'
+                              }`
+                            }
+                          >
+                            <FaRegSun className='w-5 h-5'></FaRegSun>
+                            <span className='mx-4 font-medium'>Change Password</span>
                           </NavLink>
                         </>
                       )

@@ -1,9 +1,11 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
+import Container from '../Container/Container';
 
 const Footer = () => {
     return (
-        <footer>
+    <div className='mt-8'>
+          <footer>
             <div className="footer p-10 bg-neutral text-neutral-content">
   <div>
     <p className='text-xl font-medium'>iBooking!</p>
@@ -25,6 +27,7 @@ const Footer = () => {
   </div>
 </div>
         </footer>
+    </div>
     );
 };
 

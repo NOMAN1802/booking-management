@@ -4,17 +4,18 @@ import Card from './Card';
 import { ImCross } from 'react-icons/im';
 
 const MatchRoom = ({ searchRooms, setIsRoomOpen }) => {
+  
   return (
     <div>
       {searchRooms &&
         searchRooms.map((result) => (
-          <Transition key={result.id} show={true}>
+          <Transition key={result._id} show={true}>
             <Dialog
               as="div"
               className="fixed inset-0 z-10 overflow-y-auto"
               onClose={() => setIsRoomOpen(false)}
             >
-              <div className="min-h-screen px-4 text-center">
+              <div className="min-h-screen mt-4 px-4 text-center">
                 {/* Background overlay */}
                 <Transition.Child
                   as={React.Fragment}
@@ -40,7 +41,7 @@ const MatchRoom = ({ searchRooms, setIsRoomOpen }) => {
                 >
                   <div className="inline-block align-middle max-w-md p-6 my-8 overflow-hidden text-left transition-all transform bg-white shadow-xl rounded-lg">
                     {/* Your card content goes here */}
-                    <Card result={result} />
+                    <Card result={result} setIsRoomOpen={setIsRoomOpen} />
 
                     {/* Close button */}
                     <div className="mt-4">

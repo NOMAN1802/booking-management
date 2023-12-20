@@ -30,7 +30,15 @@ import Rooms from "../components/Rooms/Rooms";
 import Blog from "../components/Blogs/Blog";
 import { getBlog } from "../api/blogs";
 import BlogDetails from "../Pages/BlogDetails/BlogDetails";
+import Contact from "../Pages/Contact/Contact";
+import AdminLogin from "../Pages/AdminDashboard/AdminLogin";
+import AdminSignUp from "../Pages/AdminDashboard/AdminSignUp";
+import HostLogin from "../Pages/HostDashboard/HostLogin";
+import HostSignUp from "../Pages/HostDashboard/HostSignUp";
+import ChangePassword from "../Pages/Dashboard/ChangePassword";
+import SearchResults from "../Pages/SearchResults/SearchResults";
 import MatchRoom from "../components/Slider/MatchRoom";
+import SingleRoomSearch from "../components/Slider/EmptyCarSearch";
 
 
 
@@ -77,13 +85,36 @@ import MatchRoom from "../components/Slider/MatchRoom";
                 </PrivateRoute>),
                 loader:  ({params}) => getBlog(params.id)   
             },
-            // {
-            //     path:'singleSearch',
-            //     element:<MatchRoom/>
-            // }
+            {
+                path:'contact',
+                element:<Contact/>
+            },
+            {
+                path:'searchResults',
+                element:<SearchResults/>
+            },
+           
+            
         ]
     },
     {
+       path:'adminLogin',
+       element:<AdminLogin/>
+    },
+    {
+       path:'adminSignUp',
+       element:<AdminSignUp/>
+    },
+    {
+       path:'hostLogin',
+       element:<HostLogin/>
+    },
+    {
+       path:'hostSignUp',
+       element:<HostSignUp/>
+    },
+
+     {
         path:'/login',
         element:<LoginModal/>
       },
@@ -114,6 +145,10 @@ import MatchRoom from "../components/Slider/MatchRoom";
             {
                 path:'wishList',
                 element:<WishList></WishList>
+            },
+            {
+               path:'changePassword',
+               element:<ChangePassword/>
             },
             {
                 path: 'hostDashboard',

@@ -10,9 +10,9 @@ const MainLayout = () => {
         <div>
             <NavBar></NavBar>
           
-            <div className='bg-gray-50'>
+            
             <Outlet></Outlet>
-            </div>
+            
             <Footer></Footer>
         </div>
     );

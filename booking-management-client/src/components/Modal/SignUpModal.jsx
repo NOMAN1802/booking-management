@@ -33,7 +33,7 @@ const SignUpModal = ({ isOpen, setIsOpen }) => {
 const onSubmit = async (data) => {
   try {
     setLoading(true);
-    // Combine 'firstName' and 'lastName' into 'displayName'
+    
     const displayName = `${data.firstName} ${data.lastName}`;
 
     // Create the user with email and password
@@ -200,9 +200,7 @@ const onSubmit = async (data) => {
             <div className="flex flex-col items-start relative">
               <div className='flex items-center space-x-52'>
                 <label className='text-sm' htmlFor="password">Password</label>
-                <span className="text-gray-500 text-sm cursor-pointer hover:underline">
-                  Forgot Password?
-                </span>
+               
               </div>
               <div className="relative">
                 <input
@@ -229,13 +227,8 @@ const onSubmit = async (data) => {
 
             <p className='text-xl text-gray-600 text-center'>OR</p>
 
-            <div className='grid grid-cols-2 gap-2'>
-              <div className='flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded cursor-pointer'
-                onClick={handleGoogleSignIn}
-              >
-                <BiLogoFacebook size={24} />
-                Facebook
-              </div>
+            <div>
+             
               <div className='flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded cursor-pointer'
                 onClick={handleGoogleSignIn}
               >

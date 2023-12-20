@@ -8,7 +8,7 @@ import SectionTitle from '../SectionTitle/SectionTitle';
 
 const CarCategories = () => {
     const [params, setParams] = useSearchParams();
-    const carCategory = params.get('type')
+    const carCategory = params.get('carType')
     return (
         <Container>
            <div>

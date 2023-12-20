@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import { FaWifi,  FaTv, FaCar, FaPaw } from 'react-icons/fa';
-import FeedBack from '../FeedBack/FeedBack';
+
 
 const RoomInfo = ({ roomData }) => {
   return (
@@ -44,13 +44,13 @@ const RoomInfo = ({ roomData }) => {
         </div>
       </div>
 
-      <hr />
+      <hr className='mt-12'/>
 
-      <div className='text-lg font-light text-neutral-500'>
+      <div className='text-lg font-light text-neutral-500 mt-8'>
         {roomData?.description}
       </div>
 
-      <hr />
+      <hr  className='mt-12'/>
 
        <div className='flex flex-wrap gap-4'>
         {roomData.facilities?.map((facility, index) => (
@@ -79,10 +79,7 @@ const RoomInfo = ({ roomData }) => {
         ))}
       </div>
       <hr />
-        <div className='my-4'>
-        <p className='font-semibold text-2xl my-2'>Feed Back</p> 
-          <FeedBack/>
-      </div>
+       
     </div>
   );
 };

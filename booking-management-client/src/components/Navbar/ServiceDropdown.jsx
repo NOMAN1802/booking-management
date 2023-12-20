@@ -46,34 +46,18 @@ const ServiceDropdown = () => {
             <Menu.Item>
               {({ active }) => (
                 <Link
-                  to='/room' // Replace with your hotels route
+                  to='/room' 
                   className={`${
                     active && 'bg-gray-100 text-pink-400'
                   } group flex w-full items-center rounded-md px-2 py-2 text-base font-normal`}
                 >
 
                   Rooms
-                  {/* <NestedDropdown
-                    label="Hotel"
-                    subItems={[
-                      { label: "Hotel Search Page", to: "/hotel-search" },
-                      { label: "Single Hotel", to: "/single-hotel" },
-                    ]}
-                    
-                  /> */}
+                  
                 </Link>
               )}
             </Menu.Item>
-            {/* <Menu.Item>
-              {({ active }) => (
-                <Link
-                  to='/apartments' // Replace with your apartments route
-                  className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-normal`}
-                >
-                  Apartment
-                </Link>
-              )}
-            </Menu.Item> */}
+          
             <Menu.Item>
               {({ active }) => (
                 <Link
@@ -84,37 +68,7 @@ const ServiceDropdown = () => {
                 </Link>
               )}
             </Menu.Item>
-            {/* <Menu.Item>
-              {({ active }) => (
-                <Link
-                  to='/spaces' 
-                  className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-normal`}
-                >
-                  Space
-                </Link>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <Link
-                  to='/beauty' 
-                  className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-normal`}
-                >
-                  Beauty
-                </Link>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <Link
-                  to='/tours' 
-                  className={`${active && 'bg-gray-100 text-pink-400'} group flex w-full items-center rounded-md px-2 py-2 text-base font-normal`}
-                >
-                  Tour
-                </Link>
-              )}
-            </Menu.Item> */}
-            {/* Add more menu items as needed */}
+           
           </div>
         </Menu.Items>
       </Transition>

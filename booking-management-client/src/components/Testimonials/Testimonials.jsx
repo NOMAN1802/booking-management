@@ -15,7 +15,7 @@ const Testimonials = () => {
 
     const [reviews, setReviews] = useState([]);
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL}/reviews`)
+        fetch('/public/reviews.json')
             .then(res => res.json())
             .then(data => {
                 // console.log(data);
@@ -46,7 +46,7 @@ const Testimonials = () => {
                                 readOnly
                             />
                             <FaQuoteLeft className='mt-4 text-3xl'></FaQuoteLeft>
-                            <p className='py-8'>{review.comment}</p>
+                            <p className='py-8'>{review.details}</p>
                             <h3 className='text-2xl text-orange-400'>{review.name}</h3>
 
                         </div>

@@ -4,11 +4,12 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
+const nodemailer = require('nodemailer')
 const port = process.env.PORT || 5000;
 const stripe = require("stripe")(process.env.PAYMENT_SECRET_KEY);
 
 
-// middleWare 
+// middleware
 app.use(cors());
 app.use(express.json());
 
@@ -29,6 +30,41 @@ const verifyJWT = (req, res, next) => {
   })
 }
 
+// Send Email
+const sendMail = (emailData, emailAddress) => {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.PASS,
+    },
+  })
+
+  // verify connection configuration
+  transporter.verify(function (error, success) {
+    if (error) {
+      console.log(error)
+    } else {
+      console.log('Server is ready to take our messages')
+    }
+  })
+
+  const mailOptions = {
+    from: process.env.EMAIL,
+    to: emailAddress,
+    subject: emailData?.subject,
+    html: `<p>${emailData?.message}</p>`,
+  }
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error)
+    } else {
+      console.log('Email sent: ' + info.response)
+    }
+  })
+}
+
 // const uri = 'mongodb://0.0.0.0:27017' 
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.bduz0qc.mongodb.net/?retryWrites=true&w=majority`;
@@ -45,13 +81,12 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
-    const usersCollection = client.db("bookingDB").collection("users");
-    const roomsCollection = client.db("bookingDB").collection("rooms");
-    const carsCollection = client.db("bookingDB").collection("cars");
-    const blogsCollection = client.db("bookingDB").collection("blogs");
-    const reviewsCollection = client.db("bookingDB").collection("reviews");
-    const wishListCollection = client.db('bookingDB').collection('wishList');
-    const bookingsCollection = client.db("bookingDB").collection("bookings");
+    const usersCollection = client.db("bookingManagementDB").collection("users");
+    const roomsCollection = client.db("bookingManagementDB").collection("rooms");
+    const carsCollection = client.db("bookingManagementDB").collection("cars");
+    const blogsCollection = client.db("bookingManagementDB").collection("blogs");
+    const wishListCollection = client.db('bookingManagementDB').collection('wishList');
+    const bookingsCollection = client.db("bookingManagementDB").collection("bookings");
 
 
     // Generate client secret
@@ -72,6 +107,7 @@ async function run() {
       }
 
     })
+
 
     app.post('/jwt', (req, res) => {
       const user = req.body;
@@ -106,6 +142,32 @@ async function run() {
     app.post('/users', async (req, res) => {
       const user = req.body;
       user.role = 'guest';
+      const query = { email: user.email }
+      const existingUser = await usersCollection.findOne(query);
+      if (existingUser) {
+        return res.send({ message: 'User already exist' })
+      }
+      const result = await usersCollection.insertOne(user);
+      res.send(result)
+    })
+    //  Admin data  save api 
+
+    app.post('/infoAdmin', async (req, res) => {
+      const user = req.body;
+      user.role = 'admin';
+      const query = { email: user.email }
+      const existingUser = await usersCollection.findOne(query);
+      if (existingUser) {
+        return res.send({ message: 'User already exist' })
+      }
+      const result = await usersCollection.insertOne(user);
+      res.send(result)
+    })
+    //  Host data  save api 
+
+    app.post('/infoHost', async (req, res) => {
+      const user = req.body;
+      user.role = 'host';
       const query = { email: user.email }
       const existingUser = await usersCollection.findOne(query);
       if (existingUser) {
@@ -200,21 +262,34 @@ async function run() {
     })
 
 
-    // Gust request for Host role 
+    // Search API
 
-    app.patch('/users/hostRequest/:email', async (req, res) => {
-      const email = req.params.email;
+    app.get("/search/:text", async (req, res) => {
+      const text = req.params.text;
 
-      const query = { email: email };
+      const roomResults = await roomsCollection
+        .find({
+          $and: [
+            { title: { $regex: text, $options: "i" } },
 
-      const updateDoc = {
-        $set: {
-          role: 'Make me Host'
-        },
-      };
-      const result = await usersCollection.updateOne(query, updateDoc);
-      res.send(result);
-    })
+          ],
+        })
+        .toArray();
+
+      const carResults = await carsCollection
+        .find({
+          $and: [
+            { title: { $regex: text, $options: "i" } },
+
+          ],
+        })
+        .toArray();
+
+      res.send({
+        rooms: roomResults,
+        cars: carResults,
+      });
+    });
 
 
     // Room Related APIS
@@ -278,8 +353,6 @@ async function run() {
     });
 
 
-
-
     // Get a single room
 
     app.get('/room/:id', async (req, res) => {
@@ -330,7 +403,7 @@ async function run() {
     })
 
 
-     // search rooms
+    // search rooms
 
     app.get("/roomSearch", async (req, res) => {
       const query = req.query;
@@ -357,7 +430,7 @@ async function run() {
         res.status(400).send("Invalid search parameters");
       }
     });
-     // search cars
+    // search cars
 
     app.get("/carSearch", async (req, res) => {
       const query = req.query;
@@ -473,6 +546,8 @@ async function run() {
       res.send(result);
     })
 
+
+    
     // Car Related APIS
 
     // save a car in data base
@@ -560,10 +635,29 @@ async function run() {
     // Save a booking in database
     app.post('/bookings', async (req, res) => {
       const booking = req.body
-      console.log(booking)
       const result = await bookingsCollection.insertOne(booking)
+      if (result.insertedId) {
+        // Send confirmation email to guest
+        sendMail(
+          {
+            subject: 'Booking Successful!',
+            message: `Booking Id: ${result?.insertedId}, TransactionId: ${booking.transactionId}`,
+          },
+          booking?.guest?.email
+        )
+        // Send confirmation email to host
+        sendMail(
+          {
+            subject: 'Your room got booked!',
+            message: `Booking Id: ${result?.insertedId}, TransactionId: ${booking.transactionId}. Check dashboard for more info`,
+          },
+          booking?.host
+        )
+      }
+      console.log(result)
       res.send(result)
     })
+
 
     // delete a booking
 
@@ -640,7 +734,6 @@ async function run() {
       res.send(result)
     })
 
-
     //Car status change  api
 
     app.patch('/blogs/approved/:id', async (req, res) => {
@@ -671,24 +764,70 @@ async function run() {
     })
     // review related api
 
-    // Save a  review in database
-    app.post('/reviews', async (req, res) => {
+    // rating and comment for blogs
+
+    app.put('/reviewBlog/:postId', async (req, res) => {
+      const postId = req.params.postId;
       const review = req.body
-      console.log(review)
-      const result = await reviewsCollection.insertOne(review)
+      const filter = { _id: new ObjectId(req.params.postId) }
+      const options = { upsert: true }
+      
+      const updateDoc = {
+        $push: { reviews: review }, 
+      };
+      const result = await blogsCollection.updateOne(filter, updateDoc, options)
       res.send(result)
     })
+ 
+    // delete a blog review
+    app.delete('/blog/:postId/reviews/:reviewIndex', async (req, res) => {
+      const postId = req.params.postId;
+      const reviewIndex = parseInt(req.params.reviewIndex, 10);
+    
+      if (!ObjectId.isValid(postId) || isNaN(reviewIndex) || reviewIndex < 0) {
+        return res.status(400).json({ error: 'Invalid postId or reviewIndex' });
+      }
+    
+      try {
+        // Assuming you have a method to fetch the blogData from the database
+        const blogData = await getBlogDataById(postId);
+    
+        if (!blogData) {
+          return res.status(404).json({ error: 'Blog not found' });
+        }
+    
+        const reviews = blogData.reviews || [];
+    
+        const result = await blogsCollection.updateOne(
+          { _id: new ObjectId(postId) },
+          {
+            $pull: { reviews: { $exists: true, $in: [reviews[reviewIndex]] } },
+          }
+        );
+    
+        if (result.modifiedCount === 1) {
+          res.status(200).json({ message: 'Review deleted successfully' });
+        } else {
+          res.status(404).json({ error: 'Review not found at the specified index' });
+        }
+      } catch (error) {
+        console.error('Error deleting review:', error);
+        res.status(500).json({ error: 'Internal server error' });
+      }
+    });
 
-    // get all reviews
-    app.get('/reviews', async (req, res) => {
-      const result = await reviewsCollection.find().toArray()
-      res.send(result)
-    })
-
-
+    async function getBlogDataById(postId) {
+      try {
+        const blogData = await blogsCollection.findOne({ _id: new ObjectId(postId) });
+        return blogData;
+      } catch (error) {
+        console.error('Error fetching blog data by postId:', error);
+        throw error; 
+      }
+    }
     // Admin Dashboard API
 
-    app.get('/admin-status', verifyJWT, verifyAdmin, async (req, res) => {
+    app.get('/admin-status', async (req, res) => {
       const users = await usersCollection.estimatedDocumentCount();
       const rooms = await roomsCollection.estimatedDocumentCount();
       const cars = await carsCollection.estimatedDocumentCount();
@@ -710,14 +849,14 @@ async function run() {
         revenue
       })
     })
-    app.get('/order-stats', verifyJWT, verifyAdmin, async (req, res) => {
+    app.get('/order-stats', async (req, res) => {
       try {
         const pipeline = [
           {
             $group: {
-              _id: '$title', // Assuming 'title' is the category information
+              _id: '$title',
               count: { $sum: 1 },
-              total: { $sum: '$price' }, // Assuming 'price' is the menu item price
+              total: { $sum: '$price' }, 
             },
           },
           {
@@ -748,9 +887,9 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-  res.send('bookig is running')
+  res.send('bookingManagementDB is running')
 })
 
 app.listen(port, () => {
-  console.log(`Booking  is sitting on port: ${port}`);
+  console.log(`bookingManagementDB is running on port: ${port}`);
 })

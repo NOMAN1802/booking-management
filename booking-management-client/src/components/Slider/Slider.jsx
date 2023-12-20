@@ -50,41 +50,21 @@ const Slider = () => {
       <div className='md:absolute md:top-48 md:left-64 md:w-1/2 md:z-10 sm:absolute'>
         <div>
 
-          {/* <div>
-              {isRoomOpen ? (
-                <SearchForm
-                  
-                  setIsRoomOpen={setIsRoomOpen}
-                ></SearchForm>
-              ) : (
-                <Search isRoomOpen={isRoomOpen} setIsRoomOpen={setIsRoomOpen}></Search>
-              )}
-            </div>
-           <div>
-              {isCarOpen ? (
-                <SearchCarForm
-                  setIsCarOpen={setIsCarOpen}
-                ></SearchCarForm>
-              ) : (
-                <Search isCarOpen={isCarOpen} setIsCarOpen={setIsCarOpen}></Search>
-              )}
-            </div> */}
-
           <div>
+            
+
             {isRoomOpen ? (
               <SearchForm setIsRoomOpen={setIsRoomOpen}></SearchForm>
             ) : (
-              <Search isRoomOpen={isRoomOpen} setIsRoomOpen={setIsRoomOpen}></Search>
+              isCarOpen ? (
+                <SearchCarForm setIsCarOpen={setIsCarOpen}></SearchCarForm>
+              ) : (
+                <Search isCarOpen={isCarOpen} setIsCarOpen={setIsCarOpen} isRoomOpen={isRoomOpen} setIsRoomOpen={setIsRoomOpen}></Search>
+              )
             )}
 
-            {/* {isCarOpen ? (
-              <SearchCarForm setIsCarOpen={setIsCarOpen}></SearchCarForm>
-            ) : (
-              <Search isCarOpen={isCarOpen} setIsCarOpen={setIsCarOpen}></Search>
-            )} */}
+
           </div>
-
-
 
         </div>
 

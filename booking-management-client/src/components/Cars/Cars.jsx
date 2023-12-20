@@ -20,7 +20,7 @@ const Cars = () => {
     getApprovedCars()
       .then(data => {
         if (carCategory) {
-          const filtered = data.filter(car => car.type === carCategory)
+          const filtered = data.filter(car => car?.carType === carCategory)
           setCars(filtered)
         } else {
           setCars(data)
@@ -36,7 +36,7 @@ const Cars = () => {
   }
     return (
         <Container>
-          <CarCategories />
+          <CarCategories/>
 
           <SectionTitle 
            subHeading={"Choose what suits you best"}

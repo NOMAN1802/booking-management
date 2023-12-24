@@ -85,6 +85,7 @@ async function run() {
     const roomsCollection = client.db("bookingManagementDB").collection("rooms");
     const carsCollection = client.db("bookingManagementDB").collection("cars");
     const blogsCollection = client.db("bookingManagementDB").collection("blogs");
+    const reviewsCollection = client.db("bookingManagementDB").collection("reviews");
     const wishListCollection = client.db('bookingManagementDB').collection('wishList');
     const bookingsCollection = client.db("bookingManagementDB").collection("bookings");
 
